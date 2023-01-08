@@ -19,13 +19,13 @@ export default function Post({ navigation, postData }) {
         },
         icon: {
             resizeMode: 'contain',
-            height: 25,
-            width: 25,
+            height: 22,
+            width: 22,
             marginRight: 17
         },
         title: {
             color: 'white',
-            fontSize: 15,
+            fontSize: 13,
             fontFamily: 'Montserrat-Medium',
             paddingHorizontal: 13
         },

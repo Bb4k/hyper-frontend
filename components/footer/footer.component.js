@@ -1,18 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { AppContext } from "../../context/app.context";
+import { getProfile } from "../../utils/utils";
 
 export default function Footer({ navigate }) {
   const localRoutes = ["Feed", "Search", "Requests", "Profile"];
-  const { themeColors, setSearchBar, setSearchText, setSearchResults } = useContext(AppContext);
+  const { themeColors, setSearchBar, setSearchText, setSearchResults, user } = useContext(AppContext);
   const [focused, setFocused] = useState('Feed');
 
-  const FooterButton = ({ isFocused, image }) => {
+  const FooterButton = ({ isFocused, image, profilePic = false }) => {
     return (
       <View style={{
         padding: 7,
       }}>
-        {image && <Image source={image} style={{ width: 25, height: 25 }} />}
+        {image && !profilePic && <Image source={image} style={{ width: 25, height: 25 }} />}
+        {image && profilePic && <Image source={{ uri: user.picture }} style={[{ width: 30, height: 30, borderRadius: 50, borderColor: themeColors.yellow, borderWidth: 1 }]} />}
       </View>);
   };
 
@@ -34,7 +36,7 @@ export default function Footer({ navigate }) {
 
     if (routeName == 'Profile') {
       // setSearchBar(false);
-      return <FooterButton image={require('../../assets/friends.png')} isFocused={isFocused} />;
+      return <FooterButton image={user.picture} isFocused={isFocused} profilePic />;
     }
   }
 

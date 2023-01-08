@@ -75,9 +75,9 @@ export default function UserList({ navigate, user, listType }) {
     return (
         <TouchableOpacity
             activeOpacity={1}
-            style={[styles.container, listType != 'comment' && {alignItems: 'center'}]}
-            onPress={() => { }}>
-            <Image source={{ uri: user.user_profile_pic }} style={styles.profilePicture} />
+            style={[styles.container, listType != 'comment' && { alignItems: 'center' }]}
+            onPress={() => { getProfile(user.id) }}>
+            <Image source={{ uri: user.picture }} style={styles.profilePicture} />
             <View style={styles.textContainer}>
                 <View style={{ justifyContent: 'center' }}>
                     <Text style={[styles.textStyle, { fontSize: 17, lineHeight: 17, fontFamily: 'Montserrat-Bold' }]}>{user.username}</Text>

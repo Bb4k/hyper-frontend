@@ -45,60 +45,41 @@ export function deleteComment(post_id, API_URL) {
     console.log('Delete comment');
 }
 
-export function getProfile(username, self = false, API_URL) {
-    var templateResult = {
-        username: 'tedy_99',
-        user_profile_pic: 'https://i.ibb.co/bBSLPRC/DSC-6238.jpg',
-        height: 168,
-        weight: 85,
-        PRs: [
-            {
-                icon: '../../assets/chest-press.png',
-                name: 'Chest press',
-                kg: 40
-            },
-            {
-                icon: '../../assets/rowing.png',
-                name: 'Rowing',
-                kg: 45
-            },
-            {
-                icon: '../../assets/bench-press.png',
-                name: 'Bench press',
-                kg: 70
+export function getProfile(user_id, API_URL) {
+    return (axios.get(
+        `${API_URL}/user/${user_id}`)
+        .then((response) => {
+            return response.data;
+        })
+        .catch((response) => {
+            try {
+                show({ message: response, type: "error" });
+            } catch (e) {
+                console.log("Response get profile: ", response);
             }
-        ],
-        posts: [
-            {
-                post_id: 1,
-                media: 'https://i.ibb.co/rb50rHS/psot.png'
-            },
-            {
-                post_id: 2,
-                media: 'https://i.ibb.co/rb50rHS/psot.png'
-            },
-            {
-                post_id: 3,
-                media: 'https://i.ibb.co/rb50rHS/psot.png'
-            },
-            {
-                post_id: 4,
-                media: 'https://i.ibb.co/rb50rHS/psot.png'
-            },
-            {
-                post_id: 5,
-                media: 'https://i.ibb.co/rb50rHS/psot.png'
-            }
-        ]
-    }
+        }));
+}
 
-    return templateResult;
+export function getPRdetails(pr_id, API_URL) {
+    return (axios.get(
+        `${API_URL}/pr/${pr_id}`)
+        .then((response) => {
+            return response.data;
+        })
+        .catch((response) => {
+            try {
+                show({ message: response, type: "error" });
+            } catch (e) {
+                console.log("Response pr details: ", response);
+            }
+        }));
 }
 
 export function getRequests(API_URL) {
     var templateResult = {
+        id: 4,
         username: 'tedy_99',
-        user_profile_pic: 'https://i.ibb.co/bBSLPRC/DSC-6238.jpg',
+        picture: 'https://i.ibb.co/bBSLPRC/DSC-6238.jpg',
     }
 
     return [templateResult, templateResult, templateResult, templateResult, templateResult];

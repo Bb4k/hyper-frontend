@@ -7,6 +7,7 @@ import {
   RoleSelectScreen,
   LoginScreen,
   Signup,
+  Feed
 } from "../screens";
 
 export const navigationRef = React.createRef();

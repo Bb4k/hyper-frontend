@@ -23,7 +23,6 @@ export default function Feed({ navigation }) {
                 setPosts(getFeedPosts(API_URL)); //.then((res) => setPosts(res));
             }
         }
-
         return unsub();
     }, []);
 

@@ -43,15 +43,25 @@ export default function LoginScreen({ navigation }) {
 
         <CustomButton
           size
-          // buttonStyle={{ backgroundColor: themeColors.blue, marginTop: 115 }}
           text={"Submit"}
           onPress={() => {
-            setUser('tot');
-            // handleLogin({ username, password });
-            // handleLogin({
-            //   email: 'rios_chan@flexigen.kw',
-            //   password: '.Rios77Chan!'
-            // })
+            // var bodyFormData = {
+            //   username: username,
+            //   email: '',
+            //   password: password,
+            //   height: 0,
+            //   weight: 0,
+            //   picture: ''
+            // }
+            var bodyFormData = {
+              username: 'tata',
+              email: '',
+              password: 'gaga',
+              height: 0,
+              weight: 0,
+              picture: ''
+            }
+            handleLogin(bodyFormData);
           }}
         />
       </View>
