@@ -5,7 +5,7 @@ import { UserList } from '../../components';
 import { getRequests } from '../../utils/utils';
 
 export default function Requests({ navigation }) {
-    const { themeColors, user, API_URL, deviceW, deviceH } = useContext(AppContext);
+    const { themeColors, profile, API_URL, deviceW, deviceH } = useContext(AppContext);
     const [requests, setRequests] = useState([]);
 
     const styles = StyleSheet.create({

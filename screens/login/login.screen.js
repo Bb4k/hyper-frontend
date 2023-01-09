@@ -7,7 +7,7 @@ import { AppContext } from '../../context/app.context';
 export default function LoginScreen({ navigation }) {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
-  const { themeColors, handleLogin, setUser, failedLogin } = useContext(AppContext);
+  const { themeColors, handleLogin, failedLogin } = useContext(AppContext);
 
   return (
     <View

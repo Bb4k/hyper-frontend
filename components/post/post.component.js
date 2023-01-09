@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { View, StyleSheet, Image, TouchableOpacity, Text } from "react-native";
 import { AppContext } from "../../context/app.context";
-import { navigationRef } from "../../navigation/root.navigation";
+import { hypePost, unhypePost } from "../../utils/utils";
 
 export default function Post({ navigation, postData }) {
-    const { themeColors, user, API_URL, deviceW, deviceH } = useContext(AppContext);
+    const { themeColors, API_URL, deviceW, deviceH } = useContext(AppContext);
     const [liked, setLiked] = useState(false);
 
     const styles = StyleSheet.create({
@@ -40,11 +40,15 @@ export default function Post({ navigation, postData }) {
 
     return (
         <View>
-            <Image source={{ uri: postData.media }} style={styles.post} />
+            <Image source={{ uri: postData.post.media }} style={styles.post} />
             <View style={styles.reactionContainer}>
                 <TouchableOpacity
-                    key={`${postData.post_id}-1`}
-                    onPress={() => { setLiked(!liked) }}>
+                    key={`${postData.post.id}-1`}
+                    onPress={() => {
+                        setLiked(!liked);
+                        liked && unhypePost(postData.post.id, API_URL);
+                        !liked && hypePost(postData.post.id, API_URL);
+                    }}>
                     {!liked &&
                         <Image source={require('../../assets/muscles.png')} style={styles.icon} />
                     }
@@ -53,18 +57,18 @@ export default function Post({ navigation, postData }) {
                     }
                 </TouchableOpacity>
                 <TouchableOpacity
-                    key={`${postData.post_id}-2`}
-                    onPress={() => { navigation.navigate('Comments', { postData }) }} >
+                    key={`${postData.post.id}-2`}
+                    onPress={() => { navigation.navigate('Comments', { postData: postData }) }} >
                     <Image source={require('../../assets/chat-bubble.png')} style={styles.icon} />
                 </TouchableOpacity>
                 <TouchableOpacity
-                    key={`${postData.post_id}-3`}
+                    key={`${postData.post.id}-3`}
                     onPress={() => { console.log('Share') }} >
                     <Image source={require('../../assets/send.png')} style={styles.icon} />
                 </TouchableOpacity>
             </View>
-            <Text style={styles.title}>{postData.username}: {postData.title}</Text>
-            <Text style={styles.stats}>{postData.hypes} hypes, {postData.comments} comments</Text>
+            <Text style={styles.title}>{postData.user.username}: {postData.post.title}</Text>
+            <Text style={styles.stats}>{postData.post.likes} hypes, {postData.comments} comments</Text>
         </View>
     );
 }

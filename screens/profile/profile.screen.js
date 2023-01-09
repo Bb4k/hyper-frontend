@@ -1,14 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, FlatList, Image, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, ScrollView, FlatList, Image, TouchableOpacity, BackHandler } from "react-native";
 import { AppContext } from '../../context/app.context';
-import { getPRdetails } from '../../utils/utils';
+import { getPRdetails, getProfile, sendFriendRequest } from '../../utils/utils';
 import { PR } from '../../components'
 
-export default function Profile({ navigation }) {
-    const { themeColors, user, API_URL, deviceW, profile } = useContext(AppContext);
-    const [posts, setPosts] = useState(profile.posts);
+export default function Profile({ navigation, route }) {
+    const { themeColors, API_URL, deviceW, profile } = useContext(AppContext);
+    const [posts, setPosts] = useState(route.params?.profile.posts);
     const [PRs, setPRs] = useState([]);
-    var sortPRs = [];
+    const [sendReq, setSendReq] = useState(false);
 
     const styles = StyleSheet.create({
         canvas: {
@@ -94,7 +94,7 @@ export default function Profile({ navigation }) {
     useEffect(() => {
         const unsub = () => {
             if (PRs.length == 0) {
-                for (const PR of profile.usersPr) {
+                for (const PR of route.params?.profile.usersPr) {
                     getPRdetails(PR.prId, API_URL)
                         .then((data) => setPRs(PRs => [...PRs, { icon: data.icon, id: data.id, name: data.name, weight: PR.weight }]))
                         .then((data2) => { setPRs([...data2].sort((a, b) => a.id - b.id)) });
@@ -107,28 +107,41 @@ export default function Profile({ navigation }) {
     return (
         <ScrollView style={styles.canvas}>
             <View style={styles.headerContainer}>
-                <Image source={{ uri: user.picture }} style={styles.profilePicture} />
+                <Image source={{ uri: route.params?.profile.user.picture }} style={styles.profilePicture} />
                 <View style={styles.profileStatsContainer}>
                     <View style={styles.profileStats}>
                         <View style={styles.profile}>
-                            <Text style={styles.effect}>@{user.username}</Text>
-                            <Text style={styles.userStats}>h: {user.height}cm{"\n"}w: {user.weight}kg</Text>
+                            <Text style={styles.effect}>@{route.params?.profile.user.username}</Text>
+                            <Text style={styles.userStats}>h: {route.params?.profile.user.height}cm{"\n"}w: {route.params?.profile.user.weight}kg</Text>
                         </View>
                         <View style={styles.friends}>
-                            <Text style={[styles.effect, { textAlign: 'center' }]}>friends{"\n"}{user.friends_count}</Text>
+                            <Text style={[styles.effect, { textAlign: 'center' }]}>friends{"\n"}{route.params?.profile.friends}</Text>
                         </View>
                     </View>
                     <View style={styles.btnsContainer}>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={() => { navigation.navigate("Upload") }}>
-                            <Text style={styles.btnStyle}>POST</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={() => { }}>
-                            <Text style={styles.btnStyle}>EDIT</Text>
-                        </TouchableOpacity>
+                        {route.params?.profile.user.id == profile.user.id &&
+                            <>
+                                <TouchableOpacity
+                                    style={styles.button}
+                                    onPress={() => { navigation.navigate("Upload") }}>
+                                    <Text style={styles.btnStyle}>POST</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={styles.button}
+                                    onPress={() => { navigation.navigate("EditProfile") }}>
+                                    <Text style={styles.btnStyle}>EDIT</Text>
+                                </TouchableOpacity>
+                            </>
+                        }
+                        {route.params?.profile.user.id != profile.user.id &&
+                            <>
+                                <TouchableOpacity
+                                    style={styles.button}
+                                    onPress={() => { !sendReq && sendFriendRequest({ user1Id: profile.user.id, user2Id: route.params?.profile.user.id }).then(setSendReq(true)) }}>
+                                    <Text style={styles.btnStyle}>{!sendReq ? "ADD FRIEND" : "ALREADY ADDED"}</Text>
+                                </TouchableOpacity>
+                            </>
+                        }
                     </View>
                 </View>
             </View>

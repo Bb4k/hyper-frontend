@@ -7,6 +7,7 @@ import {
   
     Upload,
     Comments,
+    EditProfile,
     
     Feed,
     Profile,
@@ -19,10 +20,10 @@ function DashboardStackScreenSimple({ navigation }) {
 
     return (
         <DashboardStack.Navigator
-            screenOptions={{
-                animation: 'fade',
-                cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
-            }}
+            // screenOptions={{
+            //     animation: 'fade',
+            //     cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+            // }}
             >
             <DashboardStack.Screen options={{ headerShown: false }} name="Feed" component={Feed} />
             <DashboardStack.Screen options={{ headerShown: false }} name="Search" component={Search} />
@@ -31,6 +32,7 @@ function DashboardStackScreenSimple({ navigation }) {
 
             <DashboardStack.Screen options={{ headerShown: false }} name="Comments" component={Comments} />
             <DashboardStack.Screen options={{ headerShown: false }} name="Upload" component={Upload} />
+            <DashboardStack.Screen options={{ headerShown: false }} name="EditProfile" component={EditProfile} />
 
             <DashboardStack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
             <DashboardStack.Screen options={{ headerShown: false }} name="Signup" component={Signup} />

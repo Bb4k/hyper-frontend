@@ -4,6 +4,7 @@ import Signup from "./signup/signup.screen";
 
 import Comments from "./comments/comments.screen";
 import Upload from "./upload/upload.screen";
+import EditProfile from "./edit-profile/edit-profile.screen";
 
 import Feed from "./feed/feed.screen";
 import Profile from "./profile/profile.screen";
@@ -17,6 +18,7 @@ export {
 
   Comments,
   Upload,
+  EditProfile,
 
   Requests,
   Feed,

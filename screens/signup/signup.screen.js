@@ -13,7 +13,7 @@ export default function Signup({ navigation }) {
   const [picture, setPicture] = useState('https://i.ibb.co/D4MNgSK/psot.png');
   const [password, setPassword] = useState();
   const [password2, setPassword2] = useState();
-  const { themeColors, setUser, handleSignup } = useContext(AppContext);
+  const { themeColors, handleSignup } = useContext(AppContext);
 
   return (
     <View
@@ -47,7 +47,7 @@ export default function Signup({ navigation }) {
             value={weight}
             onChangeText={setWeight}
           />
-          <ImageUpload pickerResponse={picture} setPickerResponse={setPicture} size={100} paddingVertical={0}/>
+          <ImageUpload pickerResponse={picture} setPickerResponse={setPicture} size={100} paddingVertical={0} />
           <CustomInput
             title={'password'}
             value={password}
@@ -67,13 +67,6 @@ export default function Signup({ navigation }) {
           text={"Submit"}
           onPress={() => {
             if (password == password2) {
-              // var bodyFormData = new FormData();
-              // bodyFormData.append("username", username);
-              // bodyFormData.append("email", email);
-              // bodyFormData.append("password", password);
-              // bodyFormData.append("height", height);
-              // bodyFormData.append("weight", weight);
-              // bodyFormData.append("picture", picture);
               var bodyFormData = {
                 username: username,
                 email: email,

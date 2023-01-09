@@ -5,11 +5,10 @@ import { CustomButton, CustomInput, ImageUpload, PR } from '../../components';
 import { getAchivements, uploadPost, getProfile } from '../../utils/utils';
 
 export default function Upload({ navigation }) {
-    const { themeColors, API_URL, deviceW, user, setProfile, setUser } = useContext(AppContext);
+    const { themeColors, API_URL, deviceW, profile, setProfile } = useContext(AppContext);
     const [kg, setKg] = useState(0);
     const [media, setMedia] = useState('https://i.ibb.co/D4MNgSK/psot.png');
     const [achivements, setAchivements] = useState([]);
-    var sortAchivements = [];
     const [title, setTitle] = useState('');
     const [selected, setSelected] = useState(0);
 
@@ -42,9 +41,10 @@ export default function Upload({ navigation }) {
     useEffect(() => {
         const unsub = () => {
             if (achivements.length == 0) {
-                getAchivements(API_URL).then((result) => setAchivements(result));
+                getAchivements(API_URL)
+                    .then((result) => setAchivements(result))
+                    .then((res2) => setAchivements([...res2].sort((a, b) => a.id - b.id)));
             }
-            sortAchivements = [...achivements].sort((a, b) => a.id - b.id);
         };
         return unsub();
     }, [achivements]);
@@ -81,13 +81,14 @@ export default function Upload({ navigation }) {
                     text={"POST"}
                     onPress={() => {
                         var bodyFormData = {
-                            userId: user.id,
+                            userId: profile.user.id,
                             weight: kg,
                             prId: selected,
                             media: media,
                             title: title,
                         }
-                        uploadPost(bodyFormData, API_URL).then(() => { getProfile(user.id, API_URL).then((res) => { setProfile(res); setUser(res.user) }); });
+                        uploadPost(bodyFormData, API_URL); 
+                        getProfile(profile.user.id, API_URL).then((res) => { setProfile(res) });
                         navigation.goBack();
                     }}
                 />

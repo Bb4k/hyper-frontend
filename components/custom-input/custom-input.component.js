@@ -11,10 +11,13 @@ export default function CustomInput({ title, value, onChangeText, password, edit
             fontSize: 20,
             fontFamily: 'Montserrat-Bold',
             paddingVertical: 10,
+            minHeight: 45,
+            maxHeight: 45,
             borderRadius: 10,
             marginBottom: 8,
             backgroundColor: themeColors.blue,
-            color: 'white'
+            color: 'white',
+            flex: 1
         },
         title: {
             fontSize: 15,

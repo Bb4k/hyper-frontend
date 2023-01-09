@@ -5,7 +5,7 @@ import { Post } from '../../components';
 import { getFeedPosts } from '../../utils/utils';
 
 export default function Feed({ navigation }) {
-    const { themeColors, user, API_URL, deviceW, deviceH } = useContext(AppContext);
+    const { themeColors, profile, API_URL } = useContext(AppContext);
     const [posts, setPosts] = useState([]);
 
     const styles = StyleSheet.create({
@@ -20,11 +20,11 @@ export default function Feed({ navigation }) {
     useEffect(() => {
         const unsub = () => {
             if (posts.length == 0) {
-                setPosts(getFeedPosts(API_URL)); //.then((res) => setPosts(res));
+                getFeedPosts(profile.user.id, API_URL).then((res) => setPosts(res));
             }
         }
         return unsub();
-    }, []);
+    }, [posts]);
 
     return (
         <FlatList

@@ -4,7 +4,8 @@ import { AppContext } from "../../context/app.context";
 import { deleteComment, getProfile } from "../../utils/utils";
 
 export default function UserList({ navigate, user, listType }) {
-    const { themeColors, API_URL } = useContext(AppContext);
+    const { themeColors, API_URL, profile } = useContext(AppContext);
+    const [deleted, setDeleted] = useState(false);
 
     const setType = () => {
         if (listType == 'searchResult') {
@@ -13,7 +14,7 @@ export default function UserList({ navigate, user, listType }) {
             else
                 return '';
         } else if (listType == 'comment') {
-            return user.comment;
+            return user.comment.text;
         }
         return 'Wants to be your gym bro';
     }
@@ -72,15 +73,15 @@ export default function UserList({ navigate, user, listType }) {
         }
     });
 
-    return (
+    return !deleted && (
         <TouchableOpacity
             activeOpacity={1}
             style={[styles.container, listType != 'comment' && { alignItems: 'center' }]}
             onPress={() => { getProfile(user.id) }}>
-            <Image source={{ uri: user.picture }} style={styles.profilePicture} />
+            <Image source={{ uri: user.user.picture }} style={styles.profilePicture} />
             <View style={styles.textContainer}>
                 <View style={{ justifyContent: 'center' }}>
-                    <Text style={[styles.textStyle, { fontSize: 17, lineHeight: 17, fontFamily: 'Montserrat-Bold' }]}>{user.username}</Text>
+                    <Text style={[styles.textStyle, { fontSize: 17, lineHeight: 17, fontFamily: 'Montserrat-Bold' }]}>{user.user.username}</Text>
                     <Text style={styles.textStyle}>{underText}</Text>
                 </View>
                 {listType == 'request' &&
@@ -97,10 +98,13 @@ export default function UserList({ navigate, user, listType }) {
                         </TouchableOpacity>
                     </View>
                 }
-                {listType == 'comment' &&
+                {listType == 'comment' && user.user.id == profile.user.id &&
                     <TouchableOpacity
                         style={{ justifyContent: 'center', alignItems: 'center' }}
-                        onPress={() => { }}>
+                        onPress={() => { 
+                            deleteComment(user.comment.id, API_URL); 
+                            setDeleted(true);
+                            }}>
                         <Image source={require('../../assets/delete.png')} style={{ height: 20, width: 20 }} />
                     </TouchableOpacity>
                 }

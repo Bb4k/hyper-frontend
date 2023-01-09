@@ -18,7 +18,7 @@ export function navigate(name, params) {
 
 function RootNavigation() {
   const Stack = createStackNavigator();
-  const { user } = useContext(AppContext);
+  const { profile } = useContext(AppContext);
 
   const renderLoggedInUser = () => (
     <>
@@ -56,7 +56,7 @@ function RootNavigation() {
     </Stack.Navigator>
   );
 
-  return user == null ? renderLoggedOutUser() : renderLoggedInUser();
+  return profile == null ? renderLoggedOutUser() : renderLoggedInUser();
 }
 
 export default RootNavigation;
