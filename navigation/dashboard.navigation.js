@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { CardStyleInterpolators, createStackNavigator } from "@react-navigation/stack";
 import {
-    RoleSelectScreen,
+    // RoleSelectScreen,
     LoginScreen,
     Signup,
   

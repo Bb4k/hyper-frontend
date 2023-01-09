@@ -3,7 +3,7 @@ import { View, StyleSheet, Image, TouchableOpacity, Text, PermissionsAndroid } f
 import { AppContext } from "../../context/app.context";
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 
-export default function ImageUpload({ navigation, pickerResponse, setPickerResponse, size }) {
+export default function ImageUpload({ navigation, pickerResponse, setPickerResponse, size, paddingVertical }) {
     const { themeColors } = useContext(AppContext);
 
     const styles = StyleSheet.create({
@@ -11,8 +11,8 @@ export default function ImageUpload({ navigation, pickerResponse, setPickerRespo
             width: '100%',
             alignItems: 'center',
             paddingHorizontal: 13,
-            paddingVertical: 7,
-            marginBottom: 8,
+            paddingVertical: pickerResponse ? 0 : paddingVertical,
+            // marginBottom: 8,
         },
         image: {
             resizeMode: 'contain',
@@ -81,16 +81,17 @@ export default function ImageUpload({ navigation, pickerResponse, setPickerRespo
     return (
         <TouchableOpacity
             activeOpacity={1}
-            style={[styles.container, { height: size }]}
+            style={[styles.container]}
             onPress={() => { openGallery() }}>
-            {!pickerResponse &&
+            {/* {!pickerResponse &&
                 <>
-                    <Image source={require('../../assets/upload-big-arrow.png')} style={styles.image} />
+                    <Image source={require('../../assets/upload-big-arrow.png')} style={[styles.image, { height: size, width: size }]} />
                     <Text style={{ fontSize: 15, fontFamily: 'Montserrat-Bold', color: 'white' }}>Select media</Text>
                 </>
-            }
+            } */}
             {/* {pickerResponse &&
-                <Image source={{ uri: pickerResponse }}} */}
+                <Image source={{ uri: pickerResponse }} style={{ height: size + paddingVertical, width: size + paddingVertical, resizeMode: 'contain' }}} */}
+            <Image source={{ uri: pickerResponse }} style={{ height: size + paddingVertical, width: size + paddingVertical, resizeMode: 'contain' }} />
         </TouchableOpacity>
     );
 }

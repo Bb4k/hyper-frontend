@@ -2,17 +2,19 @@ import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, FlatList, Image, TouchableOpacity } from "react-native";
 import { AppContext } from '../../context/app.context';
 import { getPRdetails } from '../../utils/utils';
+import { PR } from '../../components'
 
 export default function Profile({ navigation }) {
     const { themeColors, user, API_URL, deviceW, profile } = useContext(AppContext);
     const [posts, setPosts] = useState(profile.posts);
     const [PRs, setPRs] = useState([]);
+    var sortPRs = [];
 
     const styles = StyleSheet.create({
         canvas: {
             backgroundColor: themeColors.black,
             width: '100%',
-            height: '100%',
+            // height: '100%',
             marginBottom: 52,
         },
         headerContainer: {
@@ -87,36 +89,20 @@ export default function Profile({ navigation }) {
             width: '100%',
             textAlign: 'center'
         },
-        PRlist: {
-            backgroundColor: 'rgba(5, 156, 227, 0.2)',
-            width: '100%',
-            paddingHorizontal: 17,
-            paddingVertical: 10,
-        }
     });
 
     useEffect(() => {
         const unsub = () => {
             if (PRs.length == 0) {
                 for (const PR of profile.usersPr) {
-                    getPRdetails(PR.prId, API_URL).then((data) => setPRs(PRs => [...PRs, { icon: data.icon, id: data.id, name: data.name, weight: PR.weight }]));
+                    getPRdetails(PR.prId, API_URL)
+                        .then((data) => setPRs(PRs => [...PRs, { icon: data.icon, id: data.id, name: data.name, weight: PR.weight }]))
+                        .then((data2) => { setPRs([...data2].sort((a, b) => a.id - b.id)) });
                 }
             }
         };
         return unsub();
     }, [PRs]);
-
-    const renderPR = (data, index) => {
-        return (
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%', paddingVertical: 7 }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Image source={{ uri: data.icon }} style={{ height: 35, width: 35, resizeMode: 'contain', marginRight: 17 }} />
-                    <Text style={{ fontSize: 15, fontFamily: 'Montserrat-Bold', color: 'white' }}>{data.name}</Text>
-                </View>
-                <Text style={{ fontSize: 15, fontFamily: 'Montserrat-Bold', color: 'white' }}>{data.weight}kg</Text>
-            </View>
-        );
-    };
 
     return (
         <ScrollView style={styles.canvas}>
@@ -135,7 +121,7 @@ export default function Profile({ navigation }) {
                     <View style={styles.btnsContainer}>
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={() => { }}>
+                            onPress={() => { navigation.navigate("Upload") }}>
                             <Text style={styles.btnStyle}>POST</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
@@ -147,21 +133,12 @@ export default function Profile({ navigation }) {
                 </View>
             </View>
             <Text style={styles.title}>Current PRs</Text>
-            <FlatList
-                style={styles.PRlist}
-                data={PRs}
-                keyExtractor={(item, index) => `${index}`}
-                renderItem={({ index, item }) => (
-                    renderPR(item)
-                )}
-                showsVerticalScrollIndicator={false}
-            />
+            <PR data={PRs} />
             <Text style={styles.title}>Posts</Text>
             <FlatList
-                numColumns={3}                  // set number of columns 
+                numColumns={3}
                 columnWrapperStyle={{
                     marginBottom: deviceW * 0.03,
-                    // flex: 1
                     justifyContent: "space-between"
                 }}
                 data={posts}

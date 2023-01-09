@@ -87,8 +87,21 @@ function AppProvider(props) {
         }
       })
       .then((response) => {
-        setUser(response.data);
-        navigate("Feed");
+        // get entire profile of user
+        axios.get(
+          `${API_URL}/user-profile/${response.data.id}`)
+          .then((profileRes) => {
+            setUser(profileRes.data.user);
+            setProfile(profileRes.data);
+            navigate("Feed");
+          })
+          .catch((profileRes) => {
+            try {
+              show({ message: profileRes, type: "error" });
+            } catch (e) {
+              console.log("Response all data: ", profileRes);
+            }
+          });
       })
       .catch((response) => {
         try {
@@ -119,6 +132,7 @@ function AppProvider(props) {
     // User data
     user,
     profile,
+    setProfile,
     setUser,
     failedLogin,
 

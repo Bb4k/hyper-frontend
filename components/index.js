@@ -7,5 +7,6 @@ import Title from "./title/title.component";
 import Post from "./post/post.component";
 import UserList from "./user-list/user-list.component";
 import ImageUpload from "./upload-image/image-upload.component";
+import PR from "./pr/pr.component";
 
-export { Footer, Header, CustomButton, CustomInput, Title, Post, UserList, ImageUpload };
+export { Footer, Header, CustomButton, CustomInput, Title, Post, UserList, ImageUpload, PR };

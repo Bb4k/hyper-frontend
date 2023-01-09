@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import { AppContext } from "../../context/app.context";
 
-export default function CustomButton({ navigation, text, size, padding, onPress }) {
+export default function CustomButton({ navigation, text, size, padding, onPress, style }) {
 
     const { themeColors, deviceW } = useContext(AppContext);
 
@@ -31,7 +31,7 @@ export default function CustomButton({ navigation, text, size, padding, onPress 
 
     return (
         <TouchableOpacity
-            style={[styles.defaultButtonStyle, padding, size ? styles.bigButtonStyle : styles.buttonStyle]}
+            style={[styles.defaultButtonStyle, padding, size ? styles.bigButtonStyle : styles.buttonStyle, style]}
             onPress={onPress}
         >
             <Text style={[styles.buttonTextStyle]}>
