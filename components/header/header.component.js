@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { View, StyleSheet, Image, TextInput } from "react-native";
 import { AppContext } from "../../context/app.context";
-import { getSearchResults } from "../../utils/utils";
+import { getSearchResults, searchUser } from "../../utils/utils";
 
 export default function Header({ navigate }) {
-    const { themeColors, username, API_URL, searchBar, searchText, setSearchText, getFriend, setSearchResults } = useContext(AppContext);
+    const { themeColors, API_URL, profile, searchBar, searchText, setSearchText, setSearchResults } = useContext(AppContext);
 
     const styles = StyleSheet.create({
         canvas: {
@@ -25,6 +25,15 @@ export default function Header({ navigate }) {
         }
     });
 
+    useEffect(() => {
+        const unsub = () => {
+            if (searchText.length > 0) {
+                searchUser(profile.user.id, searchText, API_URL).then((results) => setSearchResults(results));
+            }
+        };
+        return unsub();
+    }, [searchText]);
+
     return (
         <View style={styles.canvas}>
             {searchBar &&
@@ -36,7 +45,7 @@ export default function Header({ navigate }) {
                         onChangeText={(text) => {
                             setSearchText(text);
                             // getSearchResults(text, API_URL).then((res) => { setSearchResults(res) });
-                            setSearchResults(getSearchResults(text, API_URL));
+                            // setSearchResults(getSearchResults(text, API_URL));
                         }}
                         autoCapitalize={'none'}
                     />

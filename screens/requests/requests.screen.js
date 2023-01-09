@@ -20,12 +20,11 @@ export default function Requests({ navigation }) {
     useEffect(() => {
         const unsub = () => {
             if (requests.length == 0) {
-                setRequests(getRequests(API_URL)); //.then((res) => setPosts(res));
+                getRequests(profile.user.id, API_URL).then((res) => setRequests(res));
             }
         }
-
         return unsub();
-    }, []);
+    }, [requests]);
 
     return (
         <FlatList
@@ -33,7 +32,7 @@ export default function Requests({ navigation }) {
             data={requests}
             keyExtractor={(item, index) => `${index}`}
             renderItem={({ index, item }) => (
-                <UserList user={item} listType={'request'} />
+                <UserList navigation={navigation} user={item} listType={'request'} />
             )}
             showsVerticalScrollIndicator={false}
         />

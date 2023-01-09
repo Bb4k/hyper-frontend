@@ -62,7 +62,7 @@ export default function Comments({ navigation, route }) {
                 data={comments}
                 keyExtractor={(item, index) => `${index}`}
                 renderItem={({ index, item }) => (
-                    <UserList user={item} listType={'comment'} />
+                    <UserList navigation={navigation} user={item} listType={'comment'} />
                 )}
                 showsVerticalScrollIndicator={false}
             />

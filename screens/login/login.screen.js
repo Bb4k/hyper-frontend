@@ -54,9 +54,9 @@ export default function LoginScreen({ navigation }) {
             //   picture: ''
             // }
             var bodyFormData = {
-              username: 'tata',
+              username: 'dragosbalmau',
               email: '',
-              password: 'gaga',
+              password: 'dragos',
               height: 0,
               weight: 0,
               picture: ''

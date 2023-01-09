@@ -15,7 +15,7 @@ export default function Search({ navigation }) {
     });
 
     return (
-        <View style={styles.canvas}>
+        <ScrollView style={styles.canvas}>
             {!searchResults &&
                 <ScrollView style={{ flexDirection: 'row', marginBottom: 52 }}>
                     <Image source={require('../../assets/ad1.png')} style={{ width: deviceW }} />
@@ -25,15 +25,14 @@ export default function Search({ navigation }) {
             }
             {searchResults &&
                 <FlatList
-                    // style={styles.canvas}
                     data={searchResults}
                     keyExtractor={(item, index) => `${index}`}
                     renderItem={({ index, item }) => (
-                        <UserList user={item} listType={'searchResult'} />
+                        <UserList navigation={navigation} user={item} listType={'searchResult'} />
                     )}
                     showsVerticalScrollIndicator={false}
                 />
             }
-        </View>
+        </ScrollView>
     );
 }

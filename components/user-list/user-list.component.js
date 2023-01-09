@@ -1,15 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
 import { View, StyleSheet, Image, TouchableOpacity, Text } from "react-native";
 import { AppContext } from "../../context/app.context";
-import { deleteComment, getProfile } from "../../utils/utils";
+import { navigationRef } from "../../navigation/root.navigation";
+import { acceptFriendRequest, deleteComment, getProfile, rejectFriendRequest } from "../../utils/utils";
 
-export default function UserList({ navigate, user, listType }) {
+export default function UserList({ navigation, user, listType }) {
     const { themeColors, API_URL, profile } = useContext(AppContext);
     const [deleted, setDeleted] = useState(false);
+    const friendRequest = {
+        user1Id: user.friendrequest?.user1Id,
+        user2Id: user.friendrequest?.user2Id
+    };
 
     const setType = () => {
         if (listType == 'searchResult') {
-            if (user.friend)
+            if (user.are_friends)
                 return 'You are already friends';
             else
                 return '';
@@ -73,11 +78,18 @@ export default function UserList({ navigate, user, listType }) {
         }
     });
 
+    useEffect(() => {
+        const unsub = () => {
+            console.log(user, user.user);
+        };
+        return unsub();
+    }, []);
+
     return !deleted && (
         <TouchableOpacity
             activeOpacity={1}
             style={[styles.container, listType != 'comment' && { alignItems: 'center' }]}
-            onPress={() => { getProfile(user.id) }}>
+            onPress={() => { getProfile(user.user.id, API_URL).then((userProfile) => { navigation.navigate("Profile", { profile: userProfile, friends: user.are_friends || user.friendship?.status }) }) }}>
             <Image source={{ uri: user.user.picture }} style={styles.profilePicture} />
             <View style={styles.textContainer}>
                 <View style={{ justifyContent: 'center' }}>
@@ -88,27 +100,28 @@ export default function UserList({ navigate, user, listType }) {
                     <View style={styles.requests}>
                         <TouchableOpacity
                             style={[styles.actionButton, styles.accept]}
-                            onPress={() => { }}>
+                            onPress={() => { acceptFriendRequest(friendRequest, API_URL).then(() => setDeleted(true)); }}>
                             <Text style={styles.actionText}>Accept</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={[styles.actionButton, styles.reject]}
-                            onPress={() => { }}>
+                            onPress={() => { rejectFriendRequest(friendRequest, API_URL).then(() => setDeleted(true)); }}>
                             <Text style={styles.actionText}>Reject</Text>
                         </TouchableOpacity>
-                    </View>
+                    </View >
                 }
-                {listType == 'comment' && user.user.id == profile.user.id &&
+                {
+                    listType == 'comment' && user.user.id == profile.user.id &&
                     <TouchableOpacity
                         style={{ justifyContent: 'center', alignItems: 'center' }}
-                        onPress={() => { 
-                            deleteComment(user.comment.id, API_URL); 
+                        onPress={() => {
+                            deleteComment(user.comment.id, API_URL);
                             setDeleted(true);
-                            }}>
+                        }}>
                         <Image source={require('../../assets/delete.png')} style={{ height: 20, width: 20 }} />
                     </TouchableOpacity>
                 }
-            </View>
-        </TouchableOpacity>
+            </View >
+        </TouchableOpacity >
     );
 }
