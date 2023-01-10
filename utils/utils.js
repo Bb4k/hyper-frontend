@@ -136,7 +136,7 @@ export function addComment(formData, API_URL) {
             }
         })
         .then((response) => {
-            return 1;
+            return response.data;
         })
         .catch((response) => {
             try {

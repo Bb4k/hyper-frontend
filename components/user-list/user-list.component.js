@@ -78,18 +78,20 @@ export default function UserList({ navigation, user, listType }) {
         }
     });
 
-    useEffect(() => {
-        const unsub = () => {
-            console.log(user, user.user);
-        };
-        return unsub();
-    }, []);
-
     return !deleted && (
         <TouchableOpacity
             activeOpacity={1}
             style={[styles.container, listType != 'comment' && { alignItems: 'center' }]}
-            onPress={() => { getProfile(user.user.id, API_URL).then((userProfile) => { navigation.navigate("Profile", { profile: userProfile, friends: user.are_friends || user.friendship?.status }) }) }}>
+            onPress={() => {
+                navigation.navigate("Profile", {
+                    profile: {
+                        user: {
+                            id: user.user.id
+                        }
+                    },
+                    friends: user.are_friends || user.friendship?.status
+                })
+            }}>
             <Image source={{ uri: user.user.picture }} style={styles.profilePicture} />
             <View style={styles.textContainer}>
                 <View style={{ justifyContent: 'center' }}>

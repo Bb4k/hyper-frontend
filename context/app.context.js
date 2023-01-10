@@ -43,7 +43,6 @@ function AppProvider(props) {
         axios.get(
           `${API_URL}/user-profile/${response.data.id}`)
           .then((profileRes) => {
-            // setUser(profileRes.data.user);
             setProfile(profileRes.data);
             navigate("Feed");
           })
@@ -80,7 +79,6 @@ function AppProvider(props) {
         axios.get(
           `${API_URL}/user-profile/${response.data.id}`)
           .then((profileRes) => {
-            // setUser(profileRes.data.user);
             setProfile(profileRes.data);
             navigate("Feed");
           })
@@ -102,7 +100,6 @@ function AppProvider(props) {
   };
 
   const handleSignout = async () => {
-    // setUser(null);
     setProfile(null);
   };
 

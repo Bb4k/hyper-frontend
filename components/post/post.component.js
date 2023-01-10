@@ -6,6 +6,7 @@ import { hypePost, unhypePost } from "../../utils/utils";
 export default function Post({ navigation, postData }) {
     const { themeColors, API_URL, deviceW, deviceH } = useContext(AppContext);
     const [liked, setLiked] = useState(false);
+    const [nrLikes, setNrLikes] = useState(postData.post.likes);
 
     const styles = StyleSheet.create({
         reactionContainer: {
@@ -46,8 +47,8 @@ export default function Post({ navigation, postData }) {
                     key={`${postData.post.id}-1`}
                     onPress={() => {
                         setLiked(!liked);
-                        liked && unhypePost(postData.post.id, API_URL);
-                        !liked && hypePost(postData.post.id, API_URL);
+                        liked && unhypePost(postData.post.id, API_URL) && setNrLikes(nrLikes - 1);
+                        !liked && hypePost(postData.post.id, API_URL) && setNrLikes(nrLikes + 1);
                     }}>
                     {!liked &&
                         <Image source={require('../../assets/muscles.png')} style={styles.icon} />
@@ -68,7 +69,7 @@ export default function Post({ navigation, postData }) {
                 </TouchableOpacity>
             </View>
             <Text style={styles.title}>{postData.user.username}: {postData.post.title}</Text>
-            <Text style={styles.stats}>{postData.post.likes} hypes, {postData.comments} comments</Text>
+            <Text style={styles.stats}>{nrLikes} hypes, {postData.comments} comments</Text>
         </View>
     );
 }

@@ -5,7 +5,7 @@ import { CustomButton, CustomInput, ImageUpload } from '../../components';
 import { getProfile, updateProfile } from '../../utils/utils';
 
 export default function EditProfile({ navigation }) {
-    const { themeColors, API_URL, deviceW, profile, setProfile } = useContext(AppContext);
+    const { themeColors, API_URL, deviceW, profile } = useContext(AppContext);
     const [height, setHeight] = useState(`${profile.user.height}`);
     const [weight, setWeight] = useState(`${profile.user.weight}`);
     const [email, setEmail] = useState(profile.user.email);
@@ -65,7 +65,6 @@ export default function EditProfile({ navigation }) {
                         picture: media
                     }
                     updateProfile(bodyFormData, API_URL);
-                    getProfile(profile.user.id, API_URL).then((res) => { setProfile(res) });
                     navigation.goBack();
                 }}
             />

@@ -87,9 +87,7 @@ export default function Upload({ navigation }) {
                             media: media,
                             title: title,
                         }
-                        uploadPost(bodyFormData, API_URL); 
-                        getProfile(profile.user.id, API_URL).then((res) => { setProfile(res) });
-                        navigation.goBack();
+                        uploadPost(bodyFormData, API_URL).then(() => { navigation.goBack() });
                     }}
                 />
             </View>

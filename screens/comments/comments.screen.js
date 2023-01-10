@@ -79,18 +79,23 @@ export default function Comments({ navigation, route }) {
                             userId: profile.user.id,
                             text: comment
                         }
-                        var tempComment = {
-                            user: {
-                                username: profile.user.username,
-                                picture: profile.user.picture
-                            },
-                            comment: {
-                                text: comment
+
+                        addComment(formData, API_URL).then((newComments) => {
+                            var tempComment = {
+                                user: {
+                                    id: profile.user.id,
+                                    username: profile.user.username,
+                                    picture: profile.user.picture
+                                },
+                                comment: {
+                                    id: newComments[newComments.length - 1].id,
+                                    text: comment
+                                }
                             }
-                        }
-                        addComment(formData, API_URL);
-                        setComments(comments => [...comments, tempComment]);
-                        setComment('');
+
+                            setComments(comments => [...comments, tempComment]);
+                            setComment('');
+                        });
                     }}>
                     <Image source={require('../../assets/send.png')} style={styles.btnStyle} />
                 </TouchableOpacity>

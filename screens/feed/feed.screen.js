@@ -26,6 +26,14 @@ export default function Feed({ navigation }) {
         return unsub();
     }, [posts]);
 
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            setPosts([]);
+        });
+
+        return unsubscribe;
+    }, [navigation]);
+
     return (
         <FlatList
             style={styles.canvas}
