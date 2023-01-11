@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { StyleSheet, FlatList, TouchableOpacity, View, Image } from "react-native";
+import { StyleSheet, FlatList, TouchableOpacity, View, Image, Text } from "react-native";
 import { AppContext } from '../../context/app.context';
 import { CustomInput, UserList } from '../../components';
 import { addComment, getComments } from '../../utils/utils';
@@ -57,49 +57,61 @@ export default function Comments({ navigation, route }) {
 
     return (
         <>
-            <FlatList
-                style={styles.canvas}
-                data={comments}
-                keyExtractor={(item, index) => `${index}`}
-                renderItem={({ index, item }) => (
-                    <UserList navigation={navigation} user={item} listType={'comment'} />
-                )}
-                showsVerticalScrollIndicator={false}
-            />
-            <View style={styles.commentContainer}>
-                <Image source={{ uri: profile.user.picture }} style={styles.profilePicture} />
-                <CustomInput
-                    value={comment}
-                    onChangeText={setComment}
+            {comments.length > 0 &&
+                <FlatList
+                    style={styles.canvas}
+                    data={comments}
+                    keyExtractor={(item, index) => `${index}`}
+                    renderItem={({ index, item }) => (
+                        <UserList navigation={navigation} user={item} listType={'comment'} />
+                    )}
+                    showsVerticalScrollIndicator={false}
                 />
-                <TouchableOpacity
-                    onPress={() => {
-                        var formData = {
-                            postId: route.params?.postData.post.id,
-                            userId: profile.user.id,
-                            text: comment
-                        }
-
-                        addComment(formData, API_URL).then((newComments) => {
-                            var tempComment = {
-                                user: {
-                                    id: profile.user.id,
-                                    username: profile.user.username,
-                                    picture: profile.user.picture
-                                },
-                                comment: {
-                                    id: newComments[newComments.length - 1].id,
-                                    text: comment
-                                }
+            }
+            {comments.length == 0 &&
+                <View style={styles.canvas}>
+                    <Text style={{ width: '100%', textAlign: 'center', color: 'white', fontFamily: 'Montserrat-Bold', fontSize: 15, paddingVertical: 15 }}>
+                        No comments yet
+                    </Text>
+                </View>
+            }
+            {profile.user?.role != 'guest' &&
+                <View style={styles.commentContainer}>
+                    <Image source={{ uri: profile.user.picture }} style={styles.profilePicture} />
+                    <CustomInput
+                        value={comment}
+                        onChangeText={setComment}
+                    />
+                    <TouchableOpacity
+                        onPress={() => {
+                            var formData = {
+                                postId: route.params?.postData.post.id,
+                                userId: profile.user.id,
+                                text: comment
                             }
 
-                            setComments(comments => [...comments, tempComment]);
-                            setComment('');
-                        });
-                    }}>
-                    <Image source={require('../../assets/send.png')} style={styles.btnStyle} />
-                </TouchableOpacity>
-            </View>
+                            addComment(formData, API_URL).then((newComments) => {
+                                var tempComment = {
+                                    authorPostId: postData.user.id,
+                                    user: {
+                                        id: profile.user.id,
+                                        username: profile.user.username,
+                                        picture: profile.user.picture
+                                    },
+                                    comment: {
+                                        id: newComments[newComments.length - 1].id,
+                                        text: comment
+                                    }
+                                }
+
+                                setComments(comments => [...comments, tempComment]);
+                                setComment('');
+                            });
+                        }}>
+                        <Image source={require('../../assets/send.png')} style={styles.btnStyle} />
+                    </TouchableOpacity>
+                </View>
+            }
         </>
     );
 }

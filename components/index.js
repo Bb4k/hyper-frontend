@@ -8,5 +8,6 @@ import Post from "./post/post.component";
 import UserList from "./user-list/user-list.component";
 import ImageUpload from "./upload-image/image-upload.component";
 import PR from "./pr/pr.component";
+import PopUp from "./popup/popup.component";
 
-export { Footer, Header, CustomButton, CustomInput, Title, Post, UserList, ImageUpload, PR };
+export { Footer, Header, CustomButton, CustomInput, Title, Post, UserList, ImageUpload, PR, PopUp };

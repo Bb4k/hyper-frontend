@@ -4,7 +4,7 @@ import { AppContext } from "../../context/app.context";
 import { CustomButton } from '../../components';
 
 export default function RoleSelectScreen({ navigation }) {
-  const { themeColors, deviceH, deviceW } = useContext(AppContext);
+  const { themeColors, deviceH, handleLogin } = useContext(AppContext);
 
   return (
     <View
@@ -19,22 +19,41 @@ export default function RoleSelectScreen({ navigation }) {
         style={{
           width: '100%',
           top: deviceH * 0.1,
-          // justifyContent: 'center',
-          // alignItems: 'center',
         }}>
 
         <Image source={require('../../assets/hyper-logo.png')} style={{ width: '100%', resizeMode: 'contain' }} />
 
         <CustomButton
+          size
           padding={{ marginBottom: 10 }}
           text={"Log in"}
           onPress={() => navigation.navigate('Login')}
         />
 
         <CustomButton
+          size
+          padding={{ marginBottom: 10 }}
           text={"Sign up"}
           onPress={() => navigation.navigate('Signup')}
         />
+
+        <CustomButton
+          size
+          style={{ backgroundColor: themeColors.pink }}
+          text={"Log in as Guest"}
+          onPress={() => {
+            var bodyFormData = {
+              username: 'guest',
+              email: '',
+              password: 'guest',
+              height: 0,
+              weight: 0,
+              picture: ''
+            }
+            handleLogin(bodyFormData);
+          }}
+        />
+
       </View>
     </View>
   );

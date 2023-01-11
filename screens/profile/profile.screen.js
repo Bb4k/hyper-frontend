@@ -33,7 +33,7 @@ export default function Profile({ navigation, route }) {
         profilePicture: {
             height: 127,
             width: 84,
-            resizeMode: 'contain',
+            resizeMode: 'cover',
             borderColor: themeColors.blue,
             borderWidth: 3,
             borderRadius: 15,
@@ -121,11 +121,34 @@ export default function Profile({ navigation, route }) {
     }, [PRs]);
 
     const buttonText = (reqSent) => {
-        if (route.params?.friends)
+        if (currentProfile.are_friends == 1)
             return "GYM BRO"
-        if (!reqSent)
+        if (!reqSent || currentProfile.are_friends == 0)
             return "ADD FRIEND"
         return "ALREADY ADDED"
+    }
+
+    const viewRight = () => {
+        if (currentProfile)
+            if (currentProfile.user.id != profile.user.id) {
+                if (profile.user?.role == 'admin')
+                    return true;
+                if (currentProfile.friend_status)
+                    return true;
+                else if (!currentProfile.user?.private)
+                    return true;
+            } else {
+                return true;
+            }
+        return false;
+    }
+
+    const privateAccountMessage = (message) => {
+        return (
+            <View style={{ backgroundColor: themeColors.blue, width: '100%', alignItems: 'center' }}>
+                <Text style={[styles.effect, { paddingVertical: 20, marginBottom: 0 }]}>{message}</Text>
+            </View>
+        )
     }
 
     return (
@@ -138,14 +161,19 @@ export default function Profile({ navigation, route }) {
                             <View style={styles.profileStats}>
                                 <View style={styles.profile}>
                                     <Text style={styles.effect}>@{currentProfile.user.username}</Text>
-                                    <Text style={styles.userStats}>h: {currentProfile.user.height}cm{"\n"}w: {currentProfile.user.weight}kg</Text>
+                                    {profile.user?.role != 'guest' &&
+                                        <Text style={styles.userStats}>h: {currentProfile.user.height}cm{"\n"}w: {currentProfile.user.weight}kg</Text>
+                                    }
+                                    {profile.user?.role == 'guest' &&
+                                        <Text style={styles.userStats}>Log in to see your profile</Text>
+                                    }
                                 </View>
                                 <View style={styles.friends}>
                                     <Text style={[styles.effect, { textAlign: 'center' }]}>friends{"\n"}{currentProfile.friends}</Text>
                                 </View>
                             </View>
                             <View style={styles.btnsContainer}>
-                                {currentProfile.user.id == profile.user.id &&
+                                {currentProfile.user.id == profile.user.id && profile.user?.role != 'guest' &&
                                     <>
                                         <TouchableOpacity
                                             style={styles.button}
@@ -159,30 +187,38 @@ export default function Profile({ navigation, route }) {
                                         </TouchableOpacity>
                                     </>
                                 }
-                                {currentProfile.user.id != profile.user.id &&
-                                    <>
-                                        <TouchableOpacity
-                                            style={styles.button}
-                                            onPress={() => { !sendReq && sendFriendRequest({ user1Id: profile.user.id, user2Id: currentProfile.user.id }).then(setSendReq(true)) }}>
-                                            <Text style={styles.btnStyle}>{buttonText(sendReq)}</Text>
-                                        </TouchableOpacity>
-                                    </>
+                                {currentProfile.user.id != profile.user.id && profile.user?.role != 'guest' &&
+                                    <TouchableOpacity
+                                        style={styles.button}
+                                        onPress={() => { !sendReq && sendFriendRequest({ user1Id: profile.user.id, user2Id: currentProfile.user.id }).then(setSendReq(true)) }}>
+                                        <Text style={styles.btnStyle}>{buttonText(sendReq)}</Text>
+                                    </TouchableOpacity>
                                 }
                             </View>
                         </View>
                     </View>
                     <Text style={styles.title}>Current PRs</Text>
-                    <PR data={PRs} />
+                    {viewRight() &&
+                        <PR data={PRs} />
+                    }
+                    {!viewRight() &&
+                        privateAccountMessage("This account is private")
+                    }
                     <Text style={styles.title}>Posts</Text>
-                    <FlatList
-                        numColumns={3}
-                        data={posts}
-                        keyExtractor={(item, index) => `${index}`}
-                        renderItem={({ index, item }) => (
-                            <Image source={{ uri: item.media }} style={{ height: deviceW / 3.2, width: deviceW / 3.2, resizeMode: 'contain', marginHorizontal: deviceW * 0.015, marginBottom: deviceW * 0.03 }} />
-                        )}
-                        showsVerticalScrollIndicator={false}
-                    />
+                    {viewRight() &&
+                        <FlatList
+                            numColumns={3}
+                            data={posts}
+                            keyExtractor={(item, index) => `${index}`}
+                            renderItem={({ index, item }) => (
+                                <Image source={{ uri: item.media }} style={{ height: deviceW / 3, width: deviceW / 3, resizeMode: 'cover', marginHorizontal: deviceW * 0.005, marginBottom: deviceW * 0.01 }} />
+                            )}
+                            showsVerticalScrollIndicator={false}
+                        />
+                    }
+                    {!viewRight() &&
+                        privateAccountMessage("Become bros to see posts")
+                    }
                 </ScrollView>
             }
             {currentProfile == null && <AppLoading />}

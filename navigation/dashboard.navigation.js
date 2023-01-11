@@ -20,10 +20,10 @@ function DashboardStackScreenSimple({ navigation }) {
 
     return (
         <DashboardStack.Navigator
-            // screenOptions={{
-            //     animation: 'fade',
-            //     cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
-            // }}
+            screenOptions={{
+                animation: 'fade',
+                cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+            }}
             >
             <DashboardStack.Screen options={{ headerShown: false }} name="Feed" component={Feed} />
             <DashboardStack.Screen options={{ headerShown: false }} name="Search" component={Search} />

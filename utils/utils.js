@@ -280,3 +280,66 @@ export function searchUser(current_user, user_to_find, API_URL) {
             }
         }));
 }
+
+
+export function acceptCommentRequest(post_id, API_URL) {
+    return (axios.post(
+        `${API_URL}/unhype/${post_id}`,
+        {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((response) => {
+            try {
+                show({ message: response, type: "error" });
+            } catch (e) {
+                console.log("Response accept comment: ", response);
+            }
+        }));
+}
+
+export function rejectCommentRequest(formData, API_URL) {
+    return (axios.delete(
+        `${API_URL}/reject-friend-request`,
+        {
+            data: formData,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((response) => {
+            try {
+                show({ message: response, type: "error" });
+            } catch (e) {
+                console.log("Response reject comment: ", response);
+            }
+        }));
+}
+
+export function deleteWarning(formData, API_URL) {
+    return (axios.delete(
+        `${API_URL}/reject-friend-request`,
+        {
+            data: formData,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((response) => {
+            try {
+                show({ message: response, type: "error" });
+            } catch (e) {
+                console.log("Response delete warning: ", response);
+            }
+        }));
+}
