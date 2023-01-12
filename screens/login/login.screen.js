@@ -44,27 +44,28 @@ export default function LoginScreen({ navigation }) {
         <CustomButton
           size
           text={"Submit"}
+          style={{ backgroundColor: themeColors.pink, marginTop: 80 }}
           onPress={() => {
-            // var bodyFormData = {
-            //   username: username,
-            //   email: '',
-            //   password: password,
-            //   height: 0,
-            //   weight: 0,
-            //   picture: '',
-            //   private: 0,
-            //   role: ''
-            // }
             var bodyFormData = {
-              username: 'dragosbalmau',
+              username: username,
               email: '',
-              password: 'dragos',
+              password: password,
               height: 0,
               weight: 0,
               picture: '',
               private: 0,
               role: ''
             }
+            // var bodyFormData = {
+            //   username: 'dragosbalmau',
+            //   email: '',
+            //   password: 'dragos',
+            //   height: 0,
+            //   weight: 0,
+            //   picture: '',
+            //   private: 0,
+            //   role: ''
+            // }
             handleLogin(bodyFormData);
           }}
         />

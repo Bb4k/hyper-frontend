@@ -21,55 +21,55 @@ export default function Signup({ navigation }) {
         height: '100%',
         width: '100%',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         paddingHorizontal: 63,
         backgroundColor: themeColors.black,
       }}>
-      <View style={{ width: '100%', height: '100%', justifyContent: 'space-around' }}>
-        <View>
-          <CustomInput
-            title={'username'}
-            value={username}
-            onChangeText={setUsername}
-          />
-          <CustomInput
-            title={'email'}
-            value={email}
-            onChangeText={setEmail}
-          />
-          <CustomInput
-            title={'height'}
-            value={height}
-            onChangeText={setHeight}
-          />
-          <CustomInput
-            title={'weight'}
-            value={weight}
-            onChangeText={setWeight}
-          />
-          <ImageUpload
-            pickerResponse={picture}
-            setPickerResponse={setPicture}
-            size={70}
-            paddingVertical={0}
-          />
-          <CustomInput
-            title={'password'}
-            value={password}
-            onChangeText={setPassword}
-            password
-          />
-          <CustomInput
-            title={'repeat password'}
-            value={password2}
-            onChangeText={setPassword2}
-            password
-          />
-        </View>
+      <View style={{ width: '100%', height: '90%', justifyContent: 'space-around' }}>
+
+        <CustomInput
+          title={'username'}
+          value={username}
+          onChangeText={setUsername}
+        />
+        <CustomInput
+          title={'email'}
+          value={email}
+          onChangeText={setEmail}
+        />
+        <CustomInput
+          title={'height'}
+          value={height}
+          onChangeText={setHeight}
+        />
+        <CustomInput
+          title={'weight'}
+          value={weight}
+          onChangeText={setWeight}
+        />
+        <ImageUpload
+          pickerResponse={picture}
+          setPickerResponse={setPicture}
+          size={70}
+          paddingVertical={0}
+        />
+        <CustomInput
+          title={'password'}
+          value={password}
+          onChangeText={setPassword}
+          password
+        />
+        <CustomInput
+          title={'repeat password'}
+          value={password2}
+          onChangeText={setPassword2}
+          password
+        />
 
         <CustomButton
           size
           text={"Submit"}
+          style={{ backgroundColor: themeColors.pink }}
           onPress={() => {
             if (password == password2) {
               var bodyFormData = {

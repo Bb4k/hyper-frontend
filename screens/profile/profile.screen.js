@@ -7,7 +7,7 @@ import { getPRdetails, getProfile, sendFriendRequest } from '../../utils/utils';
 import { PR } from '../../components'
 
 export default function Profile({ navigation, route }) {
-    const { themeColors, API_URL, deviceW, profile } = useContext(AppContext);
+    const { themeColors, API_URL, deviceW, profile, setProfile } = useContext(AppContext);
     const [currentProfile, setCurrentProfile] = useState(null);
     const [posts, setPosts] = useState([]);
     const [PRs, setPRs] = useState([1]);
@@ -27,7 +27,7 @@ export default function Profile({ navigation, route }) {
             alignContent: 'space-between',
             alignItems: 'center',
             width: '100%',
-            padding: 17,
+            padding: 10,
             backgroundColor: themeColors.yellow,
         },
         profilePicture: {
@@ -37,7 +37,7 @@ export default function Profile({ navigation, route }) {
             borderColor: themeColors.blue,
             borderWidth: 3,
             borderRadius: 15,
-            marginRight: 17,
+            marginRight: 10,
         },
         profileStatsContainer: {
             flex: 1,
@@ -47,7 +47,7 @@ export default function Profile({ navigation, route }) {
             justifyContent: 'space-between',
         },
         profile: {
-
+            maxWidth: 150
         },
         effect: {
             color: themeColors.black,
@@ -75,7 +75,7 @@ export default function Profile({ navigation, route }) {
             height: 34,
             justifyContent: 'center',
             alignItems: 'center',
-            marginRight: 17,
+            marginRight: 10,
             borderBottomColor: themeColors.blue,
             borderRightColor: themeColors.blue,
             borderLeftColor: themeColors.pink,
@@ -183,6 +183,11 @@ export default function Profile({ navigation, route }) {
                                             style={styles.button}
                                             onPress={() => { navigation.navigate("EditProfile") }}>
                                             <Text style={styles.btnStyle}>EDIT</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={styles.button}
+                                            onPress={() => { setProfile(null) }}>
+                                            <Text style={styles.btnStyle}>OUT</Text>
                                         </TouchableOpacity>
                                     </>
                                 }

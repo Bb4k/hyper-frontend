@@ -44,15 +44,14 @@ export default function Header({ navigate }) {
                         value={searchText}
                         onChangeText={(text) => {
                             setSearchText(text);
-                            // getSearchResults(text, API_URL).then((res) => { setSearchResults(res) });
-                            // setSearchResults(getSearchResults(text, API_URL));
                         }}
                         autoCapitalize={'none'}
                     />
                 </>
             }
             {!searchBar &&
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 17, width: '100%' }}>
+                <View style={[{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 17, width: '100%' }, 
+                profile.user.role != 'registered' && {justifyContent: 'center'}]}>
                     {profile.user.role == 'registered' &&
                         <View style={{ height: 25, width: 25 }} />
                     }
