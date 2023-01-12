@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import { View, TextInput, Text, StyleSheet } from "react-native";
+import { View, TextInput, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { AppContext } from "../../context/app.context";
 
-export default function CustomInput({ title, value, onChangeText, password, editable = true, inputStyle }) {
+export default function CustomInput({ title, value, onChangeText, password, editable = true, inputStyle, toggle = false }) {
     const { themeColors } = useContext(AppContext);
 
     const styles = StyleSheet.create({
@@ -34,14 +34,43 @@ export default function CustomInput({ title, value, onChangeText, password, edit
                     {title}
                 </Text>
             }
-            <TextInput
-                style={[styles.input, inputStyle]}
-                value={value}
-                onChangeText={onChangeText}
-                secureTextEntry={password}
-                autoCapitalize={'none'}
-                editable={editable}
-            />
+            {!toggle &&
+                <TextInput
+                    style={[styles.input, inputStyle]}
+                    value={value}
+                    onChangeText={onChangeText}
+                    secureTextEntry={password}
+                    autoCapitalize={'none'}
+                    editable={editable}
+                />
+            }
+            {toggle &&
+                <TouchableOpacity
+                    style={{
+                        backgroundColor: value ? themeColors.yellow : themeColors.pink,
+                        borderRadius: 50,
+                        width: 90,
+                        height: 45,
+                        padding: 5,
+                        alignItems: 'center',
+                        justifyContent: value ? 'flex-end' : 'flex-start',
+                        flexDirection: 'row'
+                    }}
+                    onPress={() => { onChangeText(!value) }}>
+                    {value &&
+                        <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: 17, color: 'rgba(0, 0, 0, 0.4)', marginRight: 5 }}>ON</Text>
+                    }
+                    <View style={{
+                        backgroundColor: 'white',
+                        borderRadius: 50,
+                        height: 35,
+                        width: 35
+                    }} />
+                    {!value &&
+                        <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: 17, color: 'rgba(0, 0, 0, 0.4)', marginLeft: 5 }}>OFF</Text>
+                    }
+                </TouchableOpacity>
+            }
         </>
     );
 }

@@ -4,7 +4,7 @@ import AppProvider from "./context/app.context";
 import RootNavigation, { navigationRef } from "./navigation/root.navigation";
 import 'react-native-gesture-handler';
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
-import AppLoading from 'expo-app-loading';
+// import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 
 export default function App() {
@@ -17,9 +17,9 @@ export default function App() {
     'Montserrat-Black': require('./assets/fonts/Montserrat-Black.ttf'),
   });
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
+  // if (!fontsLoaded) {
+  //   return <AppLoading />;
+  // }
 
   return (
     <SafeAreaProvider>

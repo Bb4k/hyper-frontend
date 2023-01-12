@@ -10,7 +10,7 @@ export default function Signup({ navigation }) {
   const [email, setEmail] = useState();
   const [height, setHeight] = useState();
   const [weight, setWeight] = useState();
-  const [picture, setPicture] = useState('https://i.ibb.co/D4MNgSK/psot.png');
+  const [picture, setPicture] = useState(false); // 'https://i.ibb.co/D4MNgSK/psot.png'
   const [password, setPassword] = useState();
   const [password2, setPassword2] = useState();
   const { themeColors, handleSignup } = useContext(AppContext);
@@ -21,7 +21,7 @@ export default function Signup({ navigation }) {
         height: '100%',
         width: '100%',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         paddingHorizontal: 63,
         backgroundColor: themeColors.black,
       }}>
@@ -47,7 +47,7 @@ export default function Signup({ navigation }) {
             value={weight}
             onChangeText={setWeight}
           />
-          <ImageUpload pickerResponse={picture} setPickerResponse={setPicture} size={100} paddingVertical={0} />
+          <ImageUpload pickerResponse={picture} setPickerResponse={setPicture} size={70} paddingVertical={0} />
           <CustomInput
             title={'password'}
             value={password}

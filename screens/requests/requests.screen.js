@@ -38,62 +38,66 @@ export default function Requests({ navigation }) {
     }, [requests]);
 
     return (
-        <View style={styles.canvas}>
-            <Text style={styles.title}>Friend requests</Text>
-            {
-                requests.friendships.length > 0 &&
-                <FlatList
-                    style={styles.canvas}
-                    data={requests.friendships}
-                    keyExtractor={(item, index) => `${index}`}
-                    renderItem={({ index, item }) => (
-                        <UserList navigation={navigation} user={item} listType={'request'} />
-                    )}
-                    showsVerticalScrollIndicator={false}
-                />
-            }
-            {
-                requests.friendships.length == 0 &&
-                <Text style={{ width: '100%', textAlign: 'center', color: 'white', fontFamily: 'Montserrat-Bold', fontSize: 15, paddingVertical: 15 }}>
-                    No requests for now
-                </Text>
-            }
+        <>
+            {requests &&
+                <View style={styles.canvas}>
+                    <Text style={styles.title}>Friend requests</Text>
+                    {
+                        requests.friendships?.length > 0 &&
+                        <FlatList
+                            style={styles.canvas}
+                            data={requests.friendships}
+                            keyExtractor={(item, index) => `${index}`}
+                            renderItem={({ index, item }) => (
+                                <UserList navigation={navigation} user={item} listType={'request'} />
+                            )}
+                            showsVerticalScrollIndicator={false}
+                        />
+                    }
+                    {
+                        requests.friendships?.length == 0 &&
+                        <Text style={{ width: '100%', textAlign: 'center', color: 'white', fontFamily: 'Montserrat-Bold', fontSize: 15, paddingVertical: 15 }}>
+                            No requests for now
+                        </Text>
+                    }
 
-            <Text style={styles.title}>Comment requests</Text>
-            {
-                requests.comments.length > 0 &&
-                <FlatList
-                    style={styles.canvas}
-                    data={requests.comments}
-                    keyExtractor={(item, index) => `${index}`}
-                    renderItem={({ index, item }) => (
-                        <UserList navigation={navigation} user={item} listType={'comment-request'} />
-                    )}
-                    showsVerticalScrollIndicator={false}
-                />
-            }
-            {
-                requests.comments.length == 0 &&
-                <Text style={{ width: '100%', textAlign: 'center', color: 'white', fontFamily: 'Montserrat-Bold', fontSize: 15, paddingVertical: 15 }}>
-                    No comments to approve
-                </Text>
-            }
+                    <Text style={styles.title}>Comment requests</Text>
+                    {
+                        requests.comments?.length > 0 &&
+                        <FlatList
+                            style={styles.canvas}
+                            data={requests.comments}
+                            keyExtractor={(item, index) => `${index}`}
+                            renderItem={({ index, item }) => (
+                                <UserList navigation={navigation} user={item} listType={'comment-request'} />
+                            )}
+                            showsVerticalScrollIndicator={false}
+                        />
+                    }
+                    {
+                        requests.comments?.length == 0 &&
+                        <Text style={{ width: '100%', textAlign: 'center', color: 'white', fontFamily: 'Montserrat-Bold', fontSize: 15, paddingVertical: 15 }}>
+                            No comments to approve
+                        </Text>
+                    }
 
-            {
-                requests.warnings.length > 0 &&
-                <>
-                    <Text style={styles.title}>Warnings</Text>
-                    <FlatList
-                        style={styles.canvas}
-                        data={requests.warnings}
-                        keyExtractor={(item, index) => `${index}`}
-                        renderItem={({ index, item }) => (
-                            <UserList navigation={navigation} user={item} listType={'warning'} />
-                        )}
-                        showsVerticalScrollIndicator={false}
-                    />
-                </>
+                    {
+                        requests.warnings?.length > 0 &&
+                        <>
+                            <Text style={styles.title}>Warnings</Text>
+                            <FlatList
+                                style={styles.canvas}
+                                data={requests.warnings}
+                                keyExtractor={(item, index) => `${index}`}
+                                renderItem={({ index, item }) => (
+                                    <UserList navigation={navigation} user={item} listType={'warning'} />
+                                )}
+                                showsVerticalScrollIndicator={false}
+                            />
+                        </>
+                    }
+                </View>
             }
-        </View >
+        </>
     );
 }

@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, FlatList, Image, TouchableOpacity, BackHandler } from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
-import AppLoading from 'expo-app-loading';
+// import AppLoading from 'expo-app-loading';
 import { AppContext } from '../../context/app.context';
 import { getPRdetails, getProfile, sendFriendRequest } from '../../utils/utils';
 import { PR } from '../../components'
@@ -221,7 +221,7 @@ export default function Profile({ navigation, route }) {
                     }
                 </ScrollView>
             }
-            {currentProfile == null && <AppLoading />}
+            {/* {currentProfile == null && <AppLoading />} */}
         </>
     );
 }

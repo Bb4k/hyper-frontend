@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/app.context";
 import { Text, StyleSheet, TouchableOpacity, Modal, View } from "react-native";
 
-export default function PopUp({ navigation, show, onSelect, post }) {
+export default function PopUp({ navigation, show, onSelect, setOption, post }) {
     const { themeColors, API_URL, deviceW, profile } = useContext(AppContext);
 
     const styles = StyleSheet.create({
@@ -53,6 +53,7 @@ export default function PopUp({ navigation, show, onSelect, post }) {
                                     style={[styles.btnContainer, { borderTopWidth: 1, borderTopColor: themeColors.blue }]}
                                     onPress={() => {
                                         onSelect(false);
+                                        setOption(true);
                                         // CALL API
                                     }}>
                                     <Text style={[styles.btn, { color: themeColors.blue }]}>Yes</Text>

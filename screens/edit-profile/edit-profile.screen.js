@@ -5,24 +5,26 @@ import { CustomButton, CustomInput, ImageUpload } from '../../components';
 import { getProfile, updateProfile } from '../../utils/utils';
 
 export default function EditProfile({ navigation }) {
-    const { themeColors, API_URL, deviceW, profile } = useContext(AppContext);
+    const { themeColors, API_URL, deviceW, profile, setProfile } = useContext(AppContext);
     const [height, setHeight] = useState(`${profile.user.height}`);
     const [weight, setWeight] = useState(`${profile.user.weight}`);
     const [email, setEmail] = useState(profile.user.email);
-    const [media, setMedia] = useState('https://i.ibb.co/D4MNgSK/psot.png');
+    const [media, setMedia] = useState(false);
+    const [privateProfile, setPrivateProfile] = useState(profile.user.private);
 
     const styles = StyleSheet.create({
         canvas: {
             backgroundColor: themeColors.black,
             width: '100%',
-            height: '100%',
+            flex: 1,
             marginBottom: 52,
-            paddingHorizontal: 17
+            paddingHorizontal: 17,
+            justifyContent: 'space-between'
         },
         profilePicture: {
             height: 127,
             width: 84,
-            resizeMode: 'contain',
+            resizeMode: 'cover',
             borderColor: themeColors.blue,
             borderWidth: 3,
             borderRadius: 15,
@@ -32,27 +34,36 @@ export default function EditProfile({ navigation }) {
 
     return (
         <View style={styles.canvas}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 17, }}>
-                <Image source={{ uri: profile.user.picture }} style={styles.profilePicture} />
-                <ImageUpload pickerResponse={profile.user.picture} setPickerResponse={setMedia} size={70} paddingVertical={0} />
+            <View>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 17 }}>
+                    <Image source={{ uri: profile.user.picture }} style={styles.profilePicture} />
+                    <ImageUpload pickerResponse={media} setPickerResponse={setMedia} size={70} paddingVertical={0} />
+                </View>
+                <CustomInput
+                    title={'height'}
+                    value={height}
+                    onChangeText={setHeight}
+                />
+                <CustomInput
+                    title={'weight'}
+                    value={weight}
+                    onChangeText={setWeight}
+                />
+                <CustomInput
+                    title={'email'}
+                    value={email}
+                    onChangeText={setEmail}
+                />
+                <CustomInput
+                    toggle
+                    title={'private'}
+                    value={privateProfile}
+                    onChangeText={setPrivateProfile}
+                />
             </View>
-            <CustomInput
-                title={'height'}
-                value={height}
-                onChangeText={setHeight}
-            />
-            <CustomInput
-                title={'weight'}
-                value={weight}
-                onChangeText={setWeight}
-            />
-            <CustomInput
-                title={'email'}
-                value={email}
-                onChangeText={setEmail}
-            />
             <CustomButton
-                style={{ backgroundColor: themeColors.pink, marginHorizontal: deviceW * 0.3 }}
+                size
+                style={{ backgroundColor: themeColors.pink, marginHorizontal: deviceW * 0.3, marginBottom: 10 }}
                 text={"SAVE"}
                 onPress={() => {
                     var bodyFormData = {
@@ -64,8 +75,14 @@ export default function EditProfile({ navigation }) {
                         email: email,
                         picture: media
                     }
-                    updateProfile(bodyFormData, API_URL);
-                    navigation.goBack();
+                    updateProfile(bodyFormData, API_URL)
+                        .then(() => {
+                            getProfile(profile.user.id, API_URL)
+                                .then((res) => {
+                                    setProfile(res);
+                                    navigation.goBack();
+                                });
+                        })
                 }}
             />
         </View >
