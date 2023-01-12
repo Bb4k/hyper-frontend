@@ -4,7 +4,7 @@ import {
     // RoleSelectScreen,
     LoginScreen,
     Signup,
-  
+
     Upload,
     Comments,
     EditProfile,
@@ -15,6 +15,7 @@ import {
     Search,
     Requests,
     Chat,
+    ChatPage,
 } from "../screens";
 
 function DashboardStackScreenSimple({ navigation }) {
@@ -26,7 +27,7 @@ function DashboardStackScreenSimple({ navigation }) {
                 animation: 'fade',
                 cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
             }}
-            >
+        >
             <DashboardStack.Screen options={{ headerShown: false }} name="Feed" component={Feed} />
             <DashboardStack.Screen options={{ headerShown: false }} name="Search" component={Search} />
             <DashboardStack.Screen options={{ headerShown: false }} name="Requests" component={Requests} />
@@ -37,6 +38,7 @@ function DashboardStackScreenSimple({ navigation }) {
             <DashboardStack.Screen options={{ headerShown: false }} name="EditProfile" component={EditProfile} />
             <DashboardStack.Screen options={{ headerShown: false }} name="PostPage" component={PostPage} />
             <DashboardStack.Screen options={{ headerShown: false }} name="Chat" component={Chat} />
+            <DashboardStack.Screen options={{ headerShown: false }} name="ChatPage" component={ChatPage} />
 
             <DashboardStack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
             <DashboardStack.Screen options={{ headerShown: false }} name="Signup" component={Signup} />

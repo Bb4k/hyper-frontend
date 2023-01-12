@@ -402,3 +402,54 @@ export function getPost(post_id, API_URL) {
             }
         }));
 }
+
+export function getDMs(user_id, API_URL) {
+    return (axios.get(
+        `${API_URL}/dms/${user_id}`)
+        .then((response) => {
+            return response.data;
+        })
+        .catch((response) => {
+            try {
+                show({ message: response, type: "error" });
+            } catch (e) {
+                console.log("Response get DMs: ", response);
+            }
+        }));
+}
+
+export function getChat(user1_id, user2_id, API_URL) {
+    return (axios.get(
+        `${API_URL}/conversation/${user1_id}/${user2_id}?currentUserId=${user1_id}&userToTextWithId=${user2_id}`)
+        .then((response) => {
+            return response.data;
+        })
+        .catch((response) => {
+            try {
+                show({ message: response, type: "error" });
+            } catch (e) {
+                console.log("Response get chat messages: ", response);
+            }
+        }));
+}
+
+export function sendMessage(formData, API_URL) {
+    return (axios.post(
+        `${API_URL}/send-message`,
+        formData,
+        {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then((response) => {
+            return response.data;
+        })
+        .catch((response) => {
+            try {
+                show({ message: response, type: "error" });
+            } catch (e) {
+                console.log("Response send message: ", response);
+            }
+        }));
+}

@@ -53,11 +53,15 @@ export default function Header({ navigate }) {
             }
             {!searchBar &&
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 17, width: '100%' }}>
-                    <View style={{ height: 25, width: 25 }} />
+                    {profile.user.role == 'registered' &&
+                        <View style={{ height: 25, width: 25 }} />
+                    }
                     <Image source={require('../../assets/hyper-logo.png')} style={{ resizeMode: 'contain', height: 45, width: '50%' }} />
-                    <TouchableOpacity onPress={() => { navigate("Chat") }}>
-                        <Image source={require('../../assets/send.png')} style={{ resizeMode: 'contain', height: 25, width: 25 }} />
-                    </TouchableOpacity>
+                    {profile.user.role == 'registered' &&
+                        <TouchableOpacity onPress={() => { navigate("Chat") }}>
+                            <Image source={require('../../assets/send.png')} style={{ resizeMode: 'contain', height: 25, width: 25 }} />
+                        </TouchableOpacity>
+                    }
                 </View>
             }
         </View>

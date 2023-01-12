@@ -12,6 +12,7 @@ import Profile from "./profile/profile.screen";
 import Search from "./search/search.screen";
 import Requests from "./requests/requests.screen";
 import Chat from "./chat/chat.screen";
+import ChatPage from "./chat-page/chat-page.screen";
 
 export {
   RoleSelectScreen,
@@ -28,4 +29,5 @@ export {
   Profile,
   Search,
   Chat,
+  ChatPage
 };

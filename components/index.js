@@ -10,5 +10,6 @@ import ImageUpload from "./upload-image/image-upload.component";
 import PR from "./pr/pr.component";
 import PopUp from "./popup/popup.component";
 import Conversation from "./conversation/conversation.component";
+import Message from "./message/message.component";
 
-export { Footer, Header, CustomButton, CustomInput, Title, Post, UserList, ImageUpload, PR, PopUp, Conversation };
+export { Footer, Header, CustomButton, CustomInput, Title, Post, UserList, ImageUpload, PR, PopUp, Conversation, Message };
