@@ -186,7 +186,7 @@ export default function Profile({ navigation, route }) {
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             style={styles.button}
-                                            onPress={() => { setProfile(null) }}>
+                                            onPress={() => { setProfile(null); navigation.navigate("RoleSelectScreen") }}>
                                             <Text style={styles.btnStyle}>OUT</Text>
                                         </TouchableOpacity>
                                     </>
