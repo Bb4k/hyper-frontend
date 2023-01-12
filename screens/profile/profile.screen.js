@@ -184,13 +184,13 @@ export default function Profile({ navigation, route }) {
                                             onPress={() => { navigation.navigate("EditProfile") }}>
                                             <Text style={styles.btnStyle}>EDIT</Text>
                                         </TouchableOpacity>
-                                        <TouchableOpacity
-                                            style={styles.button}
-                                            onPress={() => { setProfile(null); navigation.navigate("RoleSelectScreen") }}>
-                                            <Text style={styles.btnStyle}>OUT</Text>
-                                        </TouchableOpacity>
                                     </>
                                 }
+                                <TouchableOpacity
+                                    style={styles.button}
+                                    onPress={() => { setProfile(null); navigation.navigate("RoleSelectScreen") }}>
+                                    <Text style={styles.btnStyle}>OUT</Text>
+                                </TouchableOpacity>
                                 {currentProfile.user.id != profile.user.id && profile.user?.role != 'guest' &&
                                     <TouchableOpacity
                                         style={styles.button}
