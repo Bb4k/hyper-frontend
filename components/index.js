@@ -9,5 +9,6 @@ import UserList from "./user-list/user-list.component";
 import ImageUpload from "./upload-image/image-upload.component";
 import PR from "./pr/pr.component";
 import PopUp from "./popup/popup.component";
+import Conversation from "./conversation/conversation.component";
 
-export { Footer, Header, CustomButton, CustomInput, Title, Post, UserList, ImageUpload, PR, PopUp };
+export { Footer, Header, CustomButton, CustomInput, Title, Post, UserList, ImageUpload, PR, PopUp, Conversation };

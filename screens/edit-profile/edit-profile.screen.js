@@ -9,7 +9,7 @@ export default function EditProfile({ navigation }) {
     const [height, setHeight] = useState(`${profile.user.height}`);
     const [weight, setWeight] = useState(`${profile.user.weight}`);
     const [email, setEmail] = useState(profile.user.email);
-    const [media, setMedia] = useState(false);
+    const [media, setMedia] = useState([]);
     const [privateProfile, setPrivateProfile] = useState(profile.user.private);
 
     const styles = StyleSheet.create({
@@ -37,7 +37,12 @@ export default function EditProfile({ navigation }) {
             <View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 17 }}>
                     <Image source={{ uri: profile.user.picture }} style={styles.profilePicture} />
-                    <ImageUpload pickerResponse={media} setPickerResponse={setMedia} size={70} paddingVertical={0} />
+                    <ImageUpload
+                        pickerResponse={media}
+                        setPickerResponse={setMedia}
+                        size={70}
+                        paddingVertical={0}
+                    />
                 </View>
                 <CustomInput
                     title={'height'}
@@ -66,24 +71,42 @@ export default function EditProfile({ navigation }) {
                 style={{ backgroundColor: themeColors.pink, marginHorizontal: deviceW * 0.3, marginBottom: 10 }}
                 text={"SAVE"}
                 onPress={() => {
-                    var bodyFormData = {
-                        username: '',
-                        password: '',
-                        id: profile.user.id,
-                        height: parseFloat(height),
-                        weight: parseFloat(weight),
-                        email: email,
-                        picture: media
+                    var bodyFormData;
+                    if (media.length == 1)
+                        bodyFormData = {
+                            username: '',
+                            password: '',
+                            id: profile.user.id,
+                            height: parseFloat(height),
+                            weight: parseFloat(weight),
+                            email: email,
+                            picture: media[0],
+                            private: privateProfile,
+                            role: ''
+                        }
+                    else {
+                        bodyFormData = {
+                            username: '',
+                            password: '',
+                            id: profile.user.id,
+                            height: parseFloat(height),
+                            weight: parseFloat(weight),
+                            email: email,
+                            picture: '',
+                            private: privateProfile,
+                            role: ''
+                        }
                     }
                     updateProfile(bodyFormData, API_URL)
                         .then(() => {
-                            getProfile(profile.user.id, API_URL)
+                            getProfile(profile.user.id, profile.user.id, API_URL)
                                 .then((res) => {
                                     setProfile(res);
                                     navigation.goBack();
                                 });
                         })
-                }}
+                }
+                }
             />
         </View >
     );

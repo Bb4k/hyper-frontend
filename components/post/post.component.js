@@ -70,7 +70,7 @@ export default function Post({ navigation, postData }) {
                             </TouchableOpacity>
                         }
                     </View>
-                    <Image source={{ uri: postData.post.media }} style={styles.post} />
+                    <Image source={{ uri: postData.post.media1 }} style={styles.post} />
                     <View style={styles.reactionContainer}>
                         <TouchableOpacity
                             key={`${postData.post.id}-1`}
@@ -96,7 +96,7 @@ export default function Post({ navigation, postData }) {
                         <TouchableOpacity
                             key={`${postData.post.id}-3`}
                             onPress={() => { console.log('Share') }} >
-                            <Image source={require('../../assets/send.png')} style={styles.icon} />
+                            <Image source={require('../../assets/share.png')} style={styles.icon} />
                         </TouchableOpacity>
                     </View>
                     <Text style={styles.title}>{postData.user.username}: {postData.post.title}</Text>

@@ -85,7 +85,7 @@ export default function Comments({ navigation, route }) {
                     <TouchableOpacity
                         onPress={() => {
                             var formData = {
-                                authorPostId: postData.user.id,
+                                authorPostId: route.params?.postData.user.id,
                                 postId: route.params?.postData.post.id,
                                 userId: profile.user.id,
                                 text: comment
@@ -93,7 +93,7 @@ export default function Comments({ navigation, route }) {
                             addComment(formData, API_URL).then((newComments) => {
 
                                 var tempComment = {
-                                    authorPostId: postData.user.id,
+                                    authorPostId: route.params?.postData.user.id,
                                     user: {
                                         id: profile.user.id,
                                         username: profile.user.username,

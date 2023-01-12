@@ -48,7 +48,9 @@ export default function RoleSelectScreen({ navigation }) {
               password: 'guest',
               height: 0,
               weight: 0,
-              picture: ''
+              picture: '',
+              role: 'guest',
+              private: 0,
             }
             handleLogin(bodyFormData);
           }}

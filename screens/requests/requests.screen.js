@@ -13,7 +13,7 @@ export default function Requests({ navigation }) {
             backgroundColor: themeColors.black,
             width: '100%',
             height: '100%',
-            marginBottom: 52,
+            marginBottom: 52
         },
         title: {
             fontFamily: 'Montserrat-Medium',
@@ -38,14 +38,14 @@ export default function Requests({ navigation }) {
     }, [requests]);
 
     return (
-        <>
+        <View style={styles.canvas}>
             {requests &&
-                <View style={styles.canvas}>
+                <View style={{ width: '100%' }}>
                     <Text style={styles.title}>Friend requests</Text>
                     {
                         requests.friendships?.length > 0 &&
                         <FlatList
-                            style={styles.canvas}
+                            style={{ width: '100%' }}
                             data={requests.friendships}
                             keyExtractor={(item, index) => `${index}`}
                             renderItem={({ index, item }) => (
@@ -65,7 +65,7 @@ export default function Requests({ navigation }) {
                     {
                         requests.comments?.length > 0 &&
                         <FlatList
-                            style={styles.canvas}
+                            style={{ width: '100%' }}
                             data={requests.comments}
                             keyExtractor={(item, index) => `${index}`}
                             renderItem={({ index, item }) => (
@@ -86,7 +86,7 @@ export default function Requests({ navigation }) {
                         <>
                             <Text style={styles.title}>Warnings</Text>
                             <FlatList
-                                style={styles.canvas}
+                                style={{ width: '100%' }}
                                 data={requests.warnings}
                                 keyExtractor={(item, index) => `${index}`}
                                 renderItem={({ index, item }) => (
@@ -98,6 +98,6 @@ export default function Requests({ navigation }) {
                     }
                 </View>
             }
-        </>
+        </View>
     );
 }

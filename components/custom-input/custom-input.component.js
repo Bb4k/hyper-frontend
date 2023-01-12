@@ -47,17 +47,17 @@ export default function CustomInput({ title, value, onChangeText, password, edit
             {toggle &&
                 <TouchableOpacity
                     style={{
-                        backgroundColor: value ? themeColors.yellow : themeColors.pink,
+                        backgroundColor: value == 1 ? themeColors.yellow : themeColors.pink,
                         borderRadius: 50,
                         width: 90,
                         height: 45,
                         padding: 5,
                         alignItems: 'center',
-                        justifyContent: value ? 'flex-end' : 'flex-start',
+                        justifyContent: value == 1 ? 'flex-end' : 'flex-start',
                         flexDirection: 'row'
                     }}
-                    onPress={() => { onChangeText(!value) }}>
-                    {value &&
+                    onPress={() => { onChangeText(value == 1 ? 0 : 1) }}>
+                    {value == 1 &&
                         <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: 17, color: 'rgba(0, 0, 0, 0.4)', marginRight: 5 }}>ON</Text>
                     }
                     <View style={{
@@ -66,7 +66,7 @@ export default function CustomInput({ title, value, onChangeText, password, edit
                         height: 35,
                         width: 35
                     }} />
-                    {!value &&
+                    {value == 0 &&
                         <Text style={{ fontFamily: 'Montserrat-Bold', fontSize: 17, color: 'rgba(0, 0, 0, 0.4)', marginLeft: 5 }}>OFF</Text>
                     }
                 </TouchableOpacity>

@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { View, StyleSheet, Image, TouchableOpacity, Text } from "react-native";
 import { AppContext } from "../../context/app.context";
-import { navigationRef } from "../../navigation/root.navigation";
-import { acceptFriendRequest, deleteComment, acceptCommentRequest, rejectCommentRequest, rejectFriendRequest } from "../../utils/utils";
+import { acceptFriendRequest, deleteComment, acceptCommentRequest, rejectCommentRequest, rejectFriendRequest, sendWarning, deleteWarning } from "../../utils/utils";
 
 export default function UserList({ navigation, user, listType }) {
     // listType
@@ -18,10 +17,7 @@ export default function UserList({ navigation, user, listType }) {
         user1Id: user.friendrequest?.user1Id,
         user2Id: user.friendrequest?.user2Id
     };
-    const commentRequest = {
-        user: user.user.id,
-        text: user.comment.text,
-    };
+    const commentRequest = user.comment?.id;
 
     const setType = () => {
         if (listType == 'searchResult') {
@@ -29,10 +25,12 @@ export default function UserList({ navigation, user, listType }) {
                 return 'You are already friends';
             else
                 return '';
-        } else if (listType == 'comment') {
+        } else if (listType == 'comment' || listType == 'comment-request') {
             return user.comment.text;
-        } else if (listType == 'comment-request')
-            return user.post.title;
+        }
+        if (listType == 'warning') {
+            return user.comment.text == '' ? user.post.title : user.comment.text;
+        }
         return 'Wants to be your gym bro';
     }
 
@@ -109,7 +107,7 @@ export default function UserList({ navigation, user, listType }) {
                     }
                 })
             }}>
-            <Image source={{ uri: listType == 'warning' ? user.post.picture : user.user.picture }} style={styles.profilePicture} />
+            <Image source={{ uri: listType == 'warning' ? user.post.media1 : user.user.picture }} style={styles.profilePicture} />
             <View style={styles.textContainer}>
                 <View style={{ justifyContent: 'center' }}>
                     <Text style={[styles.textStyle, { fontSize: 17, lineHeight: 17, fontFamily: 'Montserrat-Bold' }]}>{user.user.username}</Text>
@@ -140,8 +138,14 @@ export default function UserList({ navigation, user, listType }) {
                     <TouchableOpacity
                         style={{ justifyContent: 'center', alignItems: 'center' }}
                         onPress={() => {
+                            var bodyFormData = {
+                                userId: user.user.id,
+                                postId: user.post.id,
+                                commentId: user.comment.id
+                            }
+                            profile.user?.role == 'admin' && sendWarning(bodyFormData, API_URL);
                             listType == 'comment' && deleteComment(user.comment.id, API_URL);
-                            listType == 'warning' && deleteWarning(user.warning.id, API_URL);
+                            listType == 'warning' && deleteWarning(user.id, API_URL);
                             setDeleted(true);
                         }}>
                         <Image source={require('../../assets/delete.png')} style={{ height: 20, width: 20 }} />

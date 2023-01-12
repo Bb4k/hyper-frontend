@@ -30,9 +30,9 @@ export function deleteComment(comment_id, API_URL) {
         }));
 }
 
-export function getProfile(user_id, API_URL) {
+export function getProfile(user_id, user2_id, API_URL) {
     return (axios.get(
-        `${API_URL}/user-profile/${user_id}`)
+        `${API_URL}/user-profile/${user_id}/${user2_id}`)
         .then((response) => {
             return response.data;
         })
@@ -77,9 +77,9 @@ export function getPRdetails(pr_id, API_URL) {
 
 export function getRequests(user_id, API_URL) {
     return (axios.get(
-        `${API_URL}/frind-requests/${user_id}`)
+        `${API_URL}/user-requests/${user_id}`)
         .then((response) => {
-            return response.data.result;
+            return response.data;
         })
         .catch((response) => {
             try {
@@ -93,6 +93,21 @@ export function getRequests(user_id, API_URL) {
 export function getFeedPosts(user_id, API_URL) {
     return (axios.get(
         `${API_URL}/user-feed/${user_id}`)
+        .then((response) => {
+            return response.data;
+        })
+        .catch((response) => {
+            try {
+                show({ message: response, type: "error" });
+            } catch (e) {
+                console.log("Response get feed: ", response);
+            }
+        }));
+}
+
+export function getAdminFeedPosts(API_URL) {
+    return (axios.get(
+        `${API_URL}/user-admin`)
         .then((response) => {
             return response.data;
         })
@@ -213,7 +228,12 @@ export function rejectFriendRequest(formData, API_URL) {
 export function updateProfile(formData, API_URL) {
     return (axios.put(
         `${API_URL}/update-user`,
-        formData)
+        formData,
+        {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
         .then((response) => {
             return 1;
         })
@@ -282,9 +302,9 @@ export function searchUser(current_user, user_to_find, API_URL) {
 }
 
 
-export function acceptCommentRequest(post_id, API_URL) {
-    return (axios.post(
-        `${API_URL}/unhype/${post_id}`,
+export function acceptCommentRequest(comment_id, API_URL) {
+    return (axios.put(
+        `${API_URL}/accept-comment/${comment_id}`,
         {
             headers: {
                 "Content-Type": "application/json"
@@ -302,15 +322,9 @@ export function acceptCommentRequest(post_id, API_URL) {
         }));
 }
 
-export function rejectCommentRequest(formData, API_URL) {
+export function rejectCommentRequest(comment_id, API_URL) {
     return (axios.delete(
-        `${API_URL}/reject-friend-request`,
-        {
-            data: formData,
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
+        `${API_URL}/delete-comment/${comment_id}`)
         .then((response) => {
             return response.data;
         })
@@ -323,11 +337,11 @@ export function rejectCommentRequest(formData, API_URL) {
         }));
 }
 
-export function deleteWarning(formData, API_URL) {
-    return (axios.delete(
-        `${API_URL}/reject-friend-request`,
+export function sendWarning(formData, API_URL) {
+    return (axios.post(
+        `${API_URL}/send-warning`,
+        formData,
         {
-            data: formData,
             headers: {
                 "Content-Type": "application/json"
             }
@@ -339,7 +353,52 @@ export function deleteWarning(formData, API_URL) {
             try {
                 show({ message: response, type: "error" });
             } catch (e) {
+                console.log("Response send warning: ", response);
+            }
+        }));
+}
+
+export function deleteWarning(warning_id, API_URL) {
+    return (axios.delete(
+        `${API_URL}/delete-warning/${warning_id}`)
+        .then((response) => {
+            return response.data;
+        })
+        .catch((response) => {
+            try {
+                show({ message: response, type: "error" });
+            } catch (e) {
                 console.log("Response delete warning: ", response);
+            }
+        }));
+}
+
+export function deletePost(post_id, API_URL) {
+    return (axios.delete(
+        `${API_URL}/delete-post/${post_id}`)
+        .then((response) => {
+            return response.data;
+        })
+        .catch((response) => {
+            try {
+                show({ message: response, type: "error" });
+            } catch (e) {
+                console.log("Response delete post: ", response);
+            }
+        }));
+}
+
+export function getPost(post_id, API_URL) {
+    return (axios.get(
+        `${API_URL}/post/${post_id}`)
+        .then((response) => {
+            return response.data;
+        })
+        .catch((response) => {
+            try {
+                show({ message: response, type: "error" });
+            } catch (e) {
+                console.log("Response get profile: ", response);
             }
         }));
 }

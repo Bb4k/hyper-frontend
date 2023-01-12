@@ -51,7 +51,9 @@ export default function LoginScreen({ navigation }) {
             //   password: password,
             //   height: 0,
             //   weight: 0,
-            //   picture: ''
+            //   picture: '',
+            //   private: 0,
+            //   role: ''
             // }
             var bodyFormData = {
               username: 'dragosbalmau',
@@ -59,7 +61,9 @@ export default function LoginScreen({ navigation }) {
               password: 'dragos',
               height: 0,
               weight: 0,
-              picture: ''
+              picture: '',
+              private: 0,
+              role: ''
             }
             handleLogin(bodyFormData);
           }}

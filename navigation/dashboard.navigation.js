@@ -8,11 +8,13 @@ import {
     Upload,
     Comments,
     EditProfile,
-    
+    PostPage,
+
     Feed,
     Profile,
     Search,
     Requests,
+    Chat,
 } from "../screens";
 
 function DashboardStackScreenSimple({ navigation }) {
@@ -33,6 +35,8 @@ function DashboardStackScreenSimple({ navigation }) {
             <DashboardStack.Screen options={{ headerShown: false }} name="Comments" component={Comments} />
             <DashboardStack.Screen options={{ headerShown: false }} name="Upload" component={Upload} />
             <DashboardStack.Screen options={{ headerShown: false }} name="EditProfile" component={EditProfile} />
+            <DashboardStack.Screen options={{ headerShown: false }} name="PostPage" component={PostPage} />
+            <DashboardStack.Screen options={{ headerShown: false }} name="Chat" component={Chat} />
 
             <DashboardStack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
             <DashboardStack.Screen options={{ headerShown: false }} name="Signup" component={Signup} />

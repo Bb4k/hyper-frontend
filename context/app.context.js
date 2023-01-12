@@ -41,7 +41,7 @@ function AppProvider(props) {
       .then(async (response) => {
         // get entire profile of user
         axios.get(
-          `${API_URL}/user-profile/${response.data.id}`)
+          `${API_URL}/user-profile/${response.data.id}/${response.data.id}`)
           .then((profileRes) => {
             setProfile(profileRes.data);
             navigate("Feed");

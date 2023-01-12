@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../context/app.context";
 import { Text, StyleSheet, TouchableOpacity, Modal, View } from "react-native";
+import { sendWarning, deletePost } from "../../utils/utils";
 
 export default function PopUp({ navigation, show, onSelect, setOption, post }) {
     const { themeColors, API_URL, deviceW, profile } = useContext(AppContext);
@@ -54,7 +55,13 @@ export default function PopUp({ navigation, show, onSelect, setOption, post }) {
                                     onPress={() => {
                                         onSelect(false);
                                         setOption(true);
-                                        // CALL API
+                                        var bodyFormData = {
+                                            userId: post.user.id,
+                                            postId: post.post.id,
+                                            commentId: 0
+                                        }
+                                        // sendWarning(bodyFormData, API_URL);
+                                        deletePost(post.post.id, API_URL);
                                     }}>
                                     <Text style={[styles.btn, { color: themeColors.blue }]}>Yes</Text>
                                 </TouchableOpacity>

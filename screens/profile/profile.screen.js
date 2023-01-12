@@ -99,7 +99,7 @@ export default function Profile({ navigation, route }) {
 
     useFocusEffect(
         React.useCallback(() => {
-            getProfile(route.params?.profile.user.id, API_URL).then((res) => {
+            getProfile(profile.user.id, route.params?.profile.user.id, API_URL).then((res) => {
                 setCurrentProfile(res);
                 setPosts(res.posts);
                 setPRs([]);
@@ -128,18 +128,17 @@ export default function Profile({ navigation, route }) {
         return "ALREADY ADDED"
     }
 
-    const viewRight = () => {
-        if (currentProfile)
-            if (currentProfile.user.id != profile.user.id) {
-                if (profile.user?.role == 'admin')
-                    return true;
-                if (currentProfile.friend_status)
-                    return true;
-                else if (!currentProfile.user?.private)
-                    return true;
-            } else {
+    const viewRight = (profile2check) => {
+        if (profile2check.user.id != profile.user.id) {
+            if (profile.user?.role == 'admin')
                 return true;
-            }
+            if (profile2check.are_friends == 1)
+                return true;
+            else if (profile2check.user?.private == 0)
+                return true;
+        } else {
+            return true;
+        }
         return false;
     }
 
@@ -161,10 +160,10 @@ export default function Profile({ navigation, route }) {
                             <View style={styles.profileStats}>
                                 <View style={styles.profile}>
                                     <Text style={styles.effect}>@{currentProfile.user.username}</Text>
-                                    {profile.user?.role != 'guest' &&
+                                    {viewRight(currentProfile) &&
                                         <Text style={styles.userStats}>h: {currentProfile.user.height}cm{"\n"}w: {currentProfile.user.weight}kg</Text>
                                     }
-                                    {profile.user?.role == 'guest' &&
+                                    {profile.user?.role == 'guest' && currentProfile.user.id == profile.user.id &&
                                         <Text style={styles.userStats}>Log in to see your profile</Text>
                                     }
                                 </View>
@@ -198,25 +197,27 @@ export default function Profile({ navigation, route }) {
                         </View>
                     </View>
                     <Text style={styles.title}>Current PRs</Text>
-                    {viewRight() &&
+                    {viewRight(currentProfile) &&
                         <PR data={PRs} />
                     }
-                    {!viewRight() &&
+                    {!viewRight(currentProfile) &&
                         privateAccountMessage("This account is private")
                     }
                     <Text style={styles.title}>Posts</Text>
-                    {viewRight() &&
+                    {viewRight(currentProfile) &&
                         <FlatList
                             numColumns={3}
                             data={posts}
                             keyExtractor={(item, index) => `${index}`}
                             renderItem={({ index, item }) => (
-                                <Image source={{ uri: item.media }} style={{ height: deviceW / 3, width: deviceW / 3, resizeMode: 'cover', marginHorizontal: deviceW * 0.005, marginBottom: deviceW * 0.01 }} />
+                                <TouchableOpacity onPress={() => { navigation.navigate("PostPage", { postId: item.id }) }}>
+                                    <Image source={{ uri: item.media1 }} style={{ height: deviceW / 3, width: deviceW / 3, resizeMode: 'cover', marginHorizontal: deviceW * 0.005, marginBottom: deviceW * 0.01 }} />
+                                </TouchableOpacity>
                             )}
                             showsVerticalScrollIndicator={false}
                         />
                     }
-                    {!viewRight() &&
+                    {!viewRight(currentProfile) &&
                         privateAccountMessage("Become bros to see posts")
                     }
                 </ScrollView>

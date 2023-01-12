@@ -7,7 +7,7 @@ import { getAchivements, uploadPost, getProfile } from '../../utils/utils';
 export default function Upload({ navigation }) {
     const { themeColors, API_URL, deviceW, profile, setProfile } = useContext(AppContext);
     const [kg, setKg] = useState(0);
-    const [media, setMedia] = useState('https://i.ibb.co/D4MNgSK/psot.png');
+    const [media, setMedia] = useState([]);
     const [achivements, setAchivements] = useState([]);
     const [title, setTitle] = useState('');
     const [selected, setSelected] = useState(0);
@@ -68,7 +68,13 @@ export default function Upload({ navigation }) {
                 </TouchableOpacity>
             </View>
             <Text style={styles.title}>Add proof</Text>
-            <ImageUpload pickerResponse={media} setPickerResponse={setMedia} size={70} paddingVertical={40} />
+            <ImageUpload
+                allowMultiple
+                pickerResponse={media}
+                setPickerResponse={setMedia}
+                size={70}
+                paddingVertical={40}
+            />
             <Text style={styles.title}>Add title</Text>
             <View style={{ paddingHorizontal: 17, paddingVertical: 5 }}>
                 <CustomInput
@@ -80,13 +86,37 @@ export default function Upload({ navigation }) {
                     style={{ backgroundColor: themeColors.pink, marginHorizontal: deviceW * 0.3 }}
                     text={"POST"}
                     onPress={() => {
-                        var bodyFormData = {
-                            userId: profile.user.id,
-                            weight: kg,
-                            prId: selected,
-                            media: media,
-                            title: title,
-                        }
+                        var bodyFormData;
+                        if (media.length == 1)
+                            bodyFormData = {
+                                userId: profile.user.id,
+                                weight: kg,
+                                prId: selected,
+                                media1: media[0],
+                                media2: '',
+                                media3: '',
+                                title: title,
+                            }
+                        if (media.length == 2)
+                            bodyFormData = {
+                                userId: profile.user.id,
+                                weight: kg,
+                                prId: selected,
+                                media1: media[0],
+                                media2: media[1],
+                                media3: '',
+                                title: title,
+                            }
+                        if (media.length == 3)
+                            bodyFormData = {
+                                userId: profile.user.id,
+                                weight: kg,
+                                prId: selected,
+                                media1: media[0],
+                                media2: media[1],
+                                media3: media[2],
+                                title: title,
+                            }
                         uploadPost(bodyFormData, API_URL).then(() => { navigation.goBack() });
                     }}
                 />
