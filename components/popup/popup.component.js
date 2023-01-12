@@ -60,8 +60,7 @@ export default function PopUp({ navigation, show, onSelect, setOption, post }) {
                                             postId: post.post.id,
                                             commentId: 0
                                         }
-                                        // sendWarning(bodyFormData, API_URL);
-                                        deletePost(post.post.id, API_URL);
+                                        sendWarning(bodyFormData, API_URL);
                                     }}>
                                     <Text style={[styles.btn, { color: themeColors.blue }]}>Yes</Text>
                                 </TouchableOpacity>

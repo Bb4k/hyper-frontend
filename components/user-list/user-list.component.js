@@ -1,18 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import { View, StyleSheet, Image, TouchableOpacity, Text } from "react-native";
 import { AppContext } from "../../context/app.context";
-import { acceptFriendRequest, deleteComment, acceptCommentRequest, rejectCommentRequest, rejectFriendRequest, sendWarning, deleteWarning } from "../../utils/utils";
+import { acceptFriendRequest, deleteComment, acceptCommentRequest, rejectCommentRequest, rejectFriendRequest, sendWarning, deleteWarning, deletePost } from "../../utils/utils";
 
 export default function UserList({ navigation, user, listType }) {
     // listType
-    // comment          - comment from a post
+    // comment          - comment from a post                                   (can be deleted)
     // searchResult     - profile preview from search page
     // request          - friend request from request page
     // comment-request  - comment request from request page
-    // warning          - notification when an admin deletes your post/comment
+    // warning          - notification when an admin deletes your post/comment  (can be deleted)
 
     const { themeColors, API_URL, profile } = useContext(AppContext);
-    const [deleted, setDeleted] = useState(false);
+    // if it's a comment, it might have been removed by an admin, otherwise set as false 
+    const [deleted, setDeleted] = useState(listType == "comment" ? user.comment.deleted == 1 || user.comment.status == 0 : false);
     const friendRequest = {
         user1Id: user.friendrequest?.user1Id,
         user2Id: user.friendrequest?.user2Id
@@ -29,13 +30,23 @@ export default function UserList({ navigation, user, listType }) {
             return user.comment.text;
         }
         if (listType == 'warning') {
-            return user.comment.text == '' ? user.post.title : user.comment.text;
+            return user.comment.text == null ? "Your post has been deleted" : user.comment.text;
         }
         return 'Wants to be your gym bro';
     }
 
     const deleteRight = () => {
-        if (profile.user?.role == 'admin' || profile.user.id == user.user.id)
+        // if it's a comment and you are an admin 
+        if (listType == "comment" && profile.user?.role == 'admin')
+            return true;
+        // if it's a warning for a post that has been deleted by an admin
+        if (listType == "warning" && user.comment.text == null && profile.user.id == user.post.userId)
+            return true;
+        // if it's a warning for a comment that has been deleted by an admin
+        if (listType == "warning" && user.comment.text != null && profile.user.id == user.comment.userId)
+            return true;
+        // if it's your own comment
+        if (listType == "comment" && (profile.user.id == user.comment.userId || profile.user.id == user.comment.authorPostId))
             return true;
         return false;
     }
@@ -140,12 +151,25 @@ export default function UserList({ navigation, user, listType }) {
                         onPress={() => {
                             var bodyFormData = {
                                 userId: user.user.id,
-                                postId: user.post.id,
+                                postId: user.comment.postId,
                                 commentId: user.comment.id
                             }
-                            profile.user?.role == 'admin' && sendWarning(bodyFormData, API_URL);
-                            listType == 'comment' && deleteComment(user.comment.id, API_URL);
-                            listType == 'warning' && deleteWarning(user.id, API_URL);
+                            if (profile.user?.role == 'admin' && listType == 'comment')
+                                // when admin deletes a comment, we send a warning
+                                sendWarning(bodyFormData, API_URL);
+                            else {
+                                // when user deletes his own comment
+                                listType == 'comment' && deleteComment(user.comment.id, API_URL);
+
+                                // when user deletes a warning
+                                if (listType == 'warning')
+                                    deleteWarning(user.id, API_URL)
+                                if (user.comment.text == null)
+                                    deletePost(user.post.id, API_URL);
+                                else
+                                    deleteComment(user.comment.id, API_URL);
+                            }
+
                             setDeleted(true);
                         }}>
                         <Image source={require('../../assets/delete.png')} style={{ height: 20, width: 20 }} />

@@ -209,11 +209,14 @@ export default function Profile({ navigation, route }) {
                             numColumns={3}
                             data={posts}
                             keyExtractor={(item, index) => `${index}`}
-                            renderItem={({ index, item }) => (
-                                <TouchableOpacity onPress={() => { navigation.navigate("PostPage", { postId: item.id }) }}>
-                                    <Image source={{ uri: item.media1 }} style={{ height: deviceW / 3, width: deviceW / 3, resizeMode: 'cover', marginHorizontal: deviceW * 0.005, marginBottom: deviceW * 0.01 }} />
-                                </TouchableOpacity>
-                            )}
+                            renderItem={({ index, item }) => {
+                                return (<>{
+                                    item.deleted != 1 &&
+                                    <TouchableOpacity onPress={() => { navigation.navigate("PostPage", { postId: item.id }) }}>
+                                        <Image source={{ uri: item.media1 }} style={{ height: deviceW / 3, width: deviceW / 3, resizeMode: 'cover', marginHorizontal: deviceW * 0.005, marginBottom: deviceW * 0.01 }} />
+                                    </TouchableOpacity>
+                                }</>)
+                            }}
                             showsVerticalScrollIndicator={false}
                         />
                     }

@@ -45,26 +45,26 @@ export default function LoginScreen({ navigation }) {
           size
           text={"Submit"}
           onPress={() => {
-            // var bodyFormData = {
-            //   username: username,
-            //   email: '',
-            //   password: password,
-            //   height: 0,
-            //   weight: 0,
-            //   picture: '',
-            //   private: 0,
-            //   role: ''
-            // }
             var bodyFormData = {
-              username: 'dragosbalmau',
+              username: username,
               email: '',
-              password: 'dragos',
+              password: password,
               height: 0,
               weight: 0,
               picture: '',
               private: 0,
               role: ''
             }
+            // var bodyFormData = {
+            //   username: 'dragosbalmau',
+            //   email: '',
+            //   password: 'dragos',
+            //   height: 0,
+            //   weight: 0,
+            //   picture: '',
+            //   private: 0,
+            //   role: ''
+            // }
             handleLogin(bodyFormData);
           }}
         />

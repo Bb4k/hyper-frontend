@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { View, StyleSheet, Image, TouchableOpacity, Text } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 import { AppContext } from "../../context/app.context";
 import { hypePost, unhypePost } from "../../utils/utils";
 import PopUp from "../popup/popup.component";
@@ -9,7 +10,7 @@ export default function Post({ navigation, postData }) {
     const [liked, setLiked] = useState(false);
     const [nrLikes, setNrLikes] = useState(postData.post.likes);
     const [showPopup, setShowPopup] = useState(false);
-    const [deleted, setDeleted] = useState(false);
+    const [deleted, setDeleted] = useState(postData.post.deleted == 1);
 
     const styles = StyleSheet.create({
         reactionContainer: {
@@ -43,6 +44,16 @@ export default function Post({ navigation, postData }) {
         }
     });
 
+    const mediaFiles = () => {
+        var lista = [postData.post.media1];
+        if (postData.post.media2 != '')
+            lista.push(postData.post.media2)
+        if (postData.post.media3 != '')
+            lista.push(postData.post.media3)
+
+        return lista;
+    }
+
     return (
         <>
             {!deleted &&
@@ -70,7 +81,17 @@ export default function Post({ navigation, postData }) {
                             </TouchableOpacity>
                         }
                     </View>
-                    <Image source={{ uri: postData.post.media1 }} style={styles.post} />
+                    <FlatList
+                        horizontal
+                        snapToAlignment="center"
+                        style={{ flexGrow: 0 }}
+                        data={mediaFiles()}
+                        keyExtractor={(item, index) => `${index}`}
+                        renderItem={({ index, item }) => (
+                            <Image source={{ uri: item }} style={styles.post} />
+                        )}
+                        showsHorizontalScrollIndicator={false}
+                    />
                     <View style={styles.reactionContainer}>
                         <TouchableOpacity
                             key={`${postData.post.id}-1`}
