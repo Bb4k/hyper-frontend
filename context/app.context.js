@@ -77,7 +77,7 @@ function AppProvider(props) {
       .then((response) => {
         // get entire profile of user
         axios.get(
-          `${API_URL}/user-profile/${response.data.id}`)
+          `${API_URL}/user-profile/${response.data.id}/${response.data.id}`)
           .then((profileRes) => {
             setProfile(profileRes.data);
             navigate("Feed");
@@ -86,7 +86,7 @@ function AppProvider(props) {
             try {
               show({ message: profileRes, type: "error" });
             } catch (e) {
-              console.log("Response all data: ", profileRes);
+              console.log("Response all data sign up: ", profileRes);
             }
           });
       })
