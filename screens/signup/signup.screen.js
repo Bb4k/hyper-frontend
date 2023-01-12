@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { CustomInput } from '../../components';
 import { CustomButton } from '../../components';
 import { ImageUpload } from '../../components';
@@ -16,16 +16,15 @@ export default function Signup({ navigation }) {
   const { themeColors, handleSignup } = useContext(AppContext);
 
   return (
-    <View
+    <ScrollView
       style={{
-        height: '100%',
+        // height: '100%',
+        // flex: 1,
         width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
         paddingHorizontal: 63,
         backgroundColor: themeColors.black,
       }}>
-      <View style={{ width: '100%', height: '90%', justifyContent: 'space-around' }}>
+      <View style={{ marginTop: 52, width: '100%', flex: 1, justifyContent: 'space-around' }}>
 
         <CustomInput
           title={'username'}
@@ -69,7 +68,7 @@ export default function Signup({ navigation }) {
         <CustomButton
           size
           text={"Submit"}
-          style={{ backgroundColor: themeColors.pink }}
+          style={{ backgroundColor: themeColors.pink, marginTop: 10 }}
           onPress={() => {
             if (password == password2) {
               var bodyFormData = {
@@ -87,6 +86,6 @@ export default function Signup({ navigation }) {
           }}
         />
       </View>
-    </View >
+    </ScrollView>
   );
 }
