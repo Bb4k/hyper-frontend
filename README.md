@@ -1,3 +1,6 @@
+[![React Native](https://img.shields.io/badge/React%20Native-v0.64.2-blue.svg)](https://reactnative.dev/)
+[![Django](https://img.shields.io/badge/Django-v3.2.6-green.svg)](https://www.djangoproject.com/)
+
 ## Hyper - The Gym-Oriented Social Media Platform 🏋️‍♂️
 
 Welcome to Hyper, where fitness meets social media! Get ready to take your gym experience to the next level with our specialized platform inspired by Instagram. Share your PRs, connect with fitness enthusiasts, and stay motivated on your fitness journey. Here's what Hyper has to offer:
